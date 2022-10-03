@@ -3,6 +3,7 @@ import axios from 'axios';
 export class Client {
 	readKey: string;
 	writeKey: string;
+	BASE_URL = 'app.mok.one';
 
 	setReadKey(readKey: string) {
 		this.readKey = readKey;
@@ -14,6 +15,12 @@ export class Client {
 		this.writeKey = writeKey;
 
 		return this;
+	}
+
+	setDev(dev: boolean) {
+		if (dev) this.BASE_URL = 'dev.mok.one';
+
+    return this;
 	}
 
 	computeData(data: any[], goalName: string) {
@@ -30,7 +37,7 @@ export class Client {
 
 			axios
 				.post(
-					`https://dev.mok.one/api/customer/compute/${goalName}`,
+					`https://${this.BASE_URL}/api/customer/compute/${goalName}`,
 					{ data },
 					{
 						headers: {

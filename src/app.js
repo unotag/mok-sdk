@@ -6,12 +6,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
 const axios_1 = __importDefault(require("axios"));
 class Client {
+    constructor() {
+        this.BASE_URL = 'app.mok.one';
+    }
     setReadKey(readKey) {
         this.readKey = readKey;
         return this;
     }
     setWriteKey(writeKey) {
         this.writeKey = writeKey;
+        return this;
+    }
+    setDev(dev) {
+        if (dev)
+            this.BASE_URL = 'dev.mok.one';
         return this;
     }
     computeData(data, goalName) {
@@ -25,7 +33,7 @@ class Client {
                 }
             }
             axios_1.default
-                .post(`https://dev.mok.one/api/customer/compute/${goalName}`, { data }, {
+                .post(`https://${this.BASE_URL}/api/customer/compute/${goalName}`, { data }, {
                 headers: {
                     Authorization: this.writeKey,
                 },
