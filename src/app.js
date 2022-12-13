@@ -41,8 +41,12 @@ class Client {
                     reject('All entries of the array must be a Non Null Object');
                 }
             }
+            /* Encrypt Request Payload/Params*/
+            for (let val of data) {
+                val = CryptoJS.AES.encrypt(val, this.cipherKey).toString();
+            }
             axios_1.default
-                .post('https://' + this.BASE_URL + '/api/customer/compute/' + goalName, { data }, {
+                .post(`https://${this.BASE_URL}/api/customer/compute/${goalName}`, { data }, {
                 headers: {
                     Authorization: this.writeKey,
                 },

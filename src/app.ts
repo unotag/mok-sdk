@@ -49,8 +49,15 @@ export class Client {
 				}
 			}
 
+			/* Encrypt Request Payload/Params*/
+			for(let val in data) {
+				if(data[val]!==null){				
+				  data[val] = CryptoJS.AES.encrypt(data[val], this.cipherKey).toString()
+				}
+			}
+
 			axios
-				.post('https://' + this.BASE_URL + '/api/customer/compute/' + goalName,
+				.post(`https://${this.BASE_URL}/api/customer/compute/${goalName}`,
 					
 					{ data },
 					{
@@ -68,8 +75,3 @@ export class Client {
 		});
 	}
 }
-const edata= CryptoJS.AES.encrypt("Data","123").toString();
-const ddata= CryptoJS.AES.decrypt(edata, "123").toString(CryptoJS.enc.Utf8);
-
-console.log(edata);
-console.log(ddata);
