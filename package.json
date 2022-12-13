@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node dist/app.js",
     "prepare": "tsc",
-    "build": "tsc"
+    "build": "tsc | javascript-obfuscator src/app.js --output dist/app.js --compact true --self-defending false"
   },
   "keywords": [],
   "author": "Unotag Gamification Platform",
@@ -24,6 +24,8 @@
     "typescript": "^4.8.3"
   },
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "crypto-js": "^4.1.1",
+    "javascript-obfuscator": "^4.0.0"
   }
 }

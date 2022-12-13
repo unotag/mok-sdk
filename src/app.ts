@@ -1,9 +1,19 @@
 import axios from 'axios';
+//const JSObfuscator = require('javascript-obfuscator');
+const CryptoJS = require('crypto-js');
+
 
 export class Client {
 	readKey: string;
 	writeKey: string;
+	cipherKey:string;
 	BASE_URL = 'app.mok.one';
+	
+	setCipherKey(cipherKey: string) {
+		this.cipherKey = cipherKey;
+
+		return this;
+	}
 
 	setReadKey(readKey: string) {
 		this.readKey = readKey;
@@ -25,6 +35,10 @@ export class Client {
 
 	computeData(data: any[], goalName: string) {
 		return new Promise((resolve, reject) => {
+			if(!this.cipherKey) {
+				reject(new Error('Cipher Key is not present'));
+			}
+
 			if (!this.writeKey) {
 				reject('Write API Key is not present');
 			}
@@ -36,8 +50,8 @@ export class Client {
 			}
 
 			axios
-				.post(
-					`https://${this.BASE_URL}/api/customer/compute/${goalName}`,
+				.post('https://' + this.BASE_URL + '/api/customer/compute/' + goalName,
+					
 					{ data },
 					{
 						headers: {
@@ -45,8 +59,8 @@ export class Client {
 						},
 					}
 				)
-				.then((res) => {
-					resolve(res.data);
+				.then((res) => {					
+					resolve(CryptoJS.AES.encrypt(res.data, this.cipherKey).toString());
 				})
 				.catch((err) => {
 					reject(err.response.data);
@@ -54,3 +68,8 @@ export class Client {
 		});
 	}
 }
+const edata= CryptoJS.AES.encrypt("Data","123").toString();
+const ddata= CryptoJS.AES.decrypt(edata, "123").toString(CryptoJS.enc.Utf8);
+
+console.log(edata);
+console.log(ddata);
