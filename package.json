@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node dist/app.js",
     "prepare": "tsc",
-    "build": "tsc | javascript-obfuscator src/app.js --output dist/app.js --compact true --self-defending false"
+    "build": "tsc && gulp"
   },
   "keywords": [],
   "author": "Unotag Gamification Platform",
@@ -21,11 +21,15 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.3.0",
     "eslint-plugin-promise": "^6.0.1",
-    "typescript": "^4.8.3"
+    "gulp-obfuscate": "^0.2.9",
+    "gulp-uglify": "^3.0.2",
+    "typescript": "^4.9.4"
   },
   "dependencies": {
     "axios": "^0.27.2",
     "crypto-js": "^4.1.1",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
     "javascript-obfuscator": "^4.0.0"
   }
 }

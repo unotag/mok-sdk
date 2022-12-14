@@ -1,6 +1,7 @@
 import axios from 'axios';
-//const JSObfuscator = require('javascript-obfuscator');
+
 const CryptoJS = require('crypto-js');
+//import * as CryptoJS from "crypto-js";
 
 
 export class Client {
@@ -75,3 +76,5 @@ export class Client {
 		});
 	}
 }
+
+console.log("Working again");
