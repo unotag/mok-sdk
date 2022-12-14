@@ -77,4 +77,3 @@ export class Client {
 	}
 }
 
-console.log("Working again");

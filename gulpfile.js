@@ -4,7 +4,7 @@ var obfuscate = require('gulp-obfuscate');
  
 gulp.task('default', function () {
     return gulp.src('src/app.js')
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(obfuscate())
     .pipe(gulp.dest('./dist/'));
 });
