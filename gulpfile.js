@@ -1,15 +1,12 @@
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
-var uglify = require('gulp-uglify');
-var obfuscate = require('gulp-obfuscate');
-
+const javascriptObfuscator = require('gulp-javascript-obfuscator');
 gulp.task('default', function () {
-    return gulp.src('src/app.ts')
-    //.pipe(uglify())
+    return gulp.src('src/app.ts')    
     .pipe(ts({
         noImplicitAny: true        
-    }))
-    .pipe(obfuscate())
+    }))  
+    .pipe(javascriptObfuscator())
     .pipe(gulp.dest('./dist/'));
 });
 
