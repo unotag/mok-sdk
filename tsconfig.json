@@ -10,7 +10,8 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "allowJs": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*"

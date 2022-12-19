@@ -1,9 +1,20 @@
 import axios from 'axios';
 
+const CryptoJS = require('crypto-js');
+//import * as CryptoJS from "crypto-js";
+
+
 export class Client {
 	readKey: string;
 	writeKey: string;
+	cipherKey:string;
 	BASE_URL = 'app.mok.one';
+	
+	setCipherKey(cipherKey: string) {
+		this.cipherKey = cipherKey;
+
+		return this;
+	}
 
 	setReadKey(readKey: string) {
 		this.readKey = readKey;
@@ -25,6 +36,10 @@ export class Client {
 
 	computeData(data: any[], goalName: string) {
 		return new Promise((resolve, reject) => {
+			if(!this.cipherKey) {
+				reject(new Error('Cipher Key is not present'));
+			}
+
 			if (!this.writeKey) {
 				reject('Write API Key is not present');
 			}
@@ -35,9 +50,16 @@ export class Client {
 				}
 			}
 
+			/* Encrypt Request Payload/Params*/
+			for(let val in data) {
+				if(data[val]!==null){				
+				  data[val] = CryptoJS.AES.encrypt(data[val], this.cipherKey).toString()
+				}
+			}
+
 			axios
-				.post(
-					`https://${this.BASE_URL}/api/customer/compute/${goalName}`,
+				.post(`https://${this.BASE_URL}/api/customer/compute/${goalName}`,
+					
 					{ data },
 					{
 						headers: {
@@ -45,8 +67,8 @@ export class Client {
 						},
 					}
 				)
-				.then((res) => {
-					resolve(res.data);
+				.then((res) => {					
+					resolve(CryptoJS.AES.encrypt(res.data, this.cipherKey).toString());
 				})
 				.catch((err) => {
 					reject(err.response.data);
@@ -54,3 +76,4 @@ export class Client {
 		});
 	}
 }
+
