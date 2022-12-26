@@ -2,11 +2,10 @@
   "name": "@mok.one/sdk",
   "version": "0.1.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "dist/app.js",
   "types": "dist/app.d.ts",
   "type": "commonjs",
   "scripts": {
-    "start": "node dist/app.js",
     "prepare": "tsc",
     "build": "tsc"
   },

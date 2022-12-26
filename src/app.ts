@@ -7,20 +7,17 @@ export class Client {
 
 	setReadKey(readKey: string) {
 		this.readKey = readKey;
-
 		return this;
 	}
 
 	setWriteKey(writeKey: string) {
 		this.writeKey = writeKey;
-
 		return this;
 	}
 
 	setDev(dev: boolean) {
 		if (dev) this.BASE_URL = 'dev.mok.one';
-
-    return this;
+		return this;
 	}
 
 	computeData(data: any[], goalName: string) {
