@@ -91,4 +91,28 @@ export class Client {
 				});
 		});
 	}
+
+	triggerNotificationWorkflow(uuid: string, data: object) {
+		return new Promise((resolve, reject) => {
+			if (!this.writeKey) {
+				reject('Write API Key is not present');
+			}
+
+			const config: AxiosRequestConfig = {
+				method: 'POST',
+				url: `https://${this.BASE_URL}/api/customer/trigger/${uuid}`,
+				headers: {
+					'Authorization': this.writeKey,
+					'Content-Type': 'application/json'
+				},
+				data
+			}
+
+			axios(config).then((response) => {
+				resolve(response.data)
+			}).catch((err) => {
+				reject(err.response.data)
+			})
+		})
+	}
 }
