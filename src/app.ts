@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 export class Client {
 	readKey: string;
 	writeKey: string;
-	BASE_URL = 'app.mok.one';
+	BASE_URL = 'live.mok.one';
 	clientId: string;
 
 	setUserProperty(data: object) {
