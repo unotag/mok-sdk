@@ -14,6 +14,6 @@ jobs:
           node-version: "16.x"
           registry-url: "https://registry.npmjs.org"
       - run: npm ci
-      - run: npm publish --access=public --tag=${GITHUB_REF##*/}
+      - run: npm publish @mok.one/sdk --access=public --tag=${GITHUB_REF##*/}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
