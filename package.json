@@ -4,15 +4,16 @@
   "description": "",
   "main": "dist/app.js",
   "types": "dist/app.d.ts",
-  "type": "commonjs",
+  "module": "dist/app.mjs",
   "scripts": {
-    "prepare": "tsc",
-    "build": "tsc"
+    "lint": "tsc",
+    "build": "tsup src/app.ts --format cjs,esm --dts"
   },
   "keywords": [],
   "author": "Unotag Gamification Platform",
   "license": "ISC",
   "devDependencies": {
+    "@changesets/cli": "^2.26.0",
     "@types/node": "^18.7.18",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "eslint": "^8.23.1",
@@ -20,6 +21,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.3.0",
     "eslint-plugin-promise": "^6.0.1",
+    "tsup": "^6.5.0",
     "typescript": "^4.8.3"
   },
   "dependencies": {
