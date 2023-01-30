@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "tsc",
     "build": "tsup src/app.ts --format cjs,esm --dts",
-    "release": "pnpm run build && pnpm changeset publish"
+    "release": "pnpm run build && changeset publish"
   },
   "keywords": [],
   "author": "Unotag Gamification Platform",
