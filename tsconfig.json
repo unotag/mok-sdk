@@ -12,9 +12,7 @@
     "allowJs": true,
     "noImplicitAny": true,
     "noUncheckedIndexedAccess": true,
-    "noEmit": true
+    "noEmit": true,
+    "jsx": "react"
   },
-  "include": [
-    "src/**/*"
-  ]
 }

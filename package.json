@@ -8,6 +8,7 @@
   "scripts": {
     "lint": "tsc",
     "build": "tsup src/app.ts --format cjs,esm --dts",
+    "reactBuild": "tsup src/react/dist --format cjs,esm --dts",
     "release": "pnpm run build && changeset publish"
   },
   "keywords": [],
