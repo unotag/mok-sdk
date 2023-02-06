@@ -5,10 +5,24 @@
   "main": "dist/app.js",
   "types": "dist/app.d.ts",
   "module": "dist/app.mjs",
+  "exports": {
+    ".": "./dist/app.js",
+    "./react": "./dist/react/react.es.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/app.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "lint": "tsc",
-    "build": "tsup src/app.ts --format cjs,esm --dts",
-    "reactBuild": "tsup src/react/dist --format cjs,esm --dts",
+    "addFolder": "cd ./dist && mkdir react",
+    "copyFiles": "copy src\\react\\dist dist\\react",
+    "copyReactBuild": "(npm run addFolder && npm run copyFiles) || npm run copyFiles",
+    "reactBuild": "cd src/react && npm run build",
+    "build": "tsup src/app.ts --format cjs,esm --dts && npm run reactBuild  && npm run copyReactBuild",
     "release": "pnpm run build && changeset publish"
   },
   "keywords": [],

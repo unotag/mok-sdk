@@ -1,4 +1,4 @@
-const MessageCard = ({ text, time }: { text: string; time: string }) => {
+const MessageCard = ({ key, text, time }: { key: number; text: string; time: string }) => {
 	return (
 		<>
 			<div
