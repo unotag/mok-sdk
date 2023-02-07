@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.4.0
+
+### Minor Changes
+
+- 8f589bc: external deps added for react
+
 ## 0.3.0
 
 ### Minor Changes
