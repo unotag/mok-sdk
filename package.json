@@ -21,7 +21,7 @@
     "addFolder": "cd ./dist && mkdir react",
     "copyFiles": "copy src\\react\\dist dist\\react",
     "copyReactBuild": "(npm run addFolder && npm run copyFiles) || npm run copyFiles",
-    "reactBuild": "cd src/react && npm run build",
+    "reactBuild": "cd src/react && npm i && npm run build",
     "build": "tsup src/app.ts --format cjs,esm --dts && npm run reactBuild  && npm run copyReactBuild",
     "release": "pnpm run build && changeset publish"
   },
