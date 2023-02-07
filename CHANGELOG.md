@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 1.0.0
+
+### Major Changes
+
+- a756b03: react component for in app added
+
 ## 0.2.8
 
 ### Patch Changes
