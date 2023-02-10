@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.5.0
+
+### Minor Changes
+
+- d904976: support for react versions >= 16.0.0
+
 ## 0.4.0
 
 ### Minor Changes
