@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
-import axios, { AxiosRequestConfig } from 'axios';
+import { useCallback, useRef, useState } from 'react';
 import moment from 'moment';
 import { Bell, X } from 'react-feather';
 
-import MessageCard from './MessageCard';
-import './styles.css';
+import { MessageCard } from './MessageCard';
+import useInfiniteScrolling from './useInfiniteScrolling';
 
 interface props {
 	apiKey: string;
@@ -12,42 +11,64 @@ interface props {
 	isDev?: boolean;
 	isLocal?: boolean;
 	position?: string;
+	containerStyles?: object;
+	messageBoxStyles?: object;
+	headerStyles?: object;
+	textStyles?: object;
+	ruleStyles?: object;
 }
 
-export const NotificationButton = ({ apiKey, id, isDev, isLocal, position }: props) => {
+export const NotificationButton = ({
+	apiKey,
+	id,
+	isDev,
+	isLocal,
+	position,
+	messageBoxStyles,
+	containerStyles,
+	headerStyles,
+	textStyles,
+	ruleStyles,
+}: props) => {
 	const [clicked, setClicked] = useState(false);
-	const [messages, setMessages] = useState([]);
+	const [pageNum, setPageNum] = useState(1);
 
 	const toggle = () => setClicked((p) => !p);
 
-	useEffect(() => {
-		const BASE_URL = isDev
-			? 'https://dev.mok.one'
-			: isLocal
-			? 'http://localhost:8080'
-			: 'https://live.mok.one';
+	const BASE_URL = isDev
+		? 'https://dev.mok.one'
+		: isLocal
+		? 'http://localhost:8080'
+		: 'https://live.mok.one';
 
-		const config: AxiosRequestConfig = {
-			method: 'GET',
-			url: `${BASE_URL}/api/customer/in_app_operation_data?external_player_id=${id}`,
-			headers: {
-				Authorization: apiKey,
-				'Content-Type': 'application/json',
-			},
-		};
+	const {
+		data: messages,
+		loading,
+		error,
+		hasMore,
+	} = useInfiniteScrolling(BASE_URL, apiKey, id, pageNum, 10);
 
-		axios(config)
-			.then((response) => {
-				setMessages(response.data.data);
-			})
-			.catch((err) => {
-				console.log(err.response.data);
+	const observer = useRef<any>();
+	const lastElem = useCallback(
+		(node: any) => {
+			if (loading) return;
+
+			if (observer.current) observer.current.disconnect();
+
+			observer.current = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting && hasMore) {
+					setPageNum((prev) => prev + 1);
+				}
 			});
-	}, []);
 
+			if (node) observer.current.observe(node);
+		},
+		[loading, hasMore]
+	);
+  
 	return (
 		<>
-			<div style={{ position: 'relative' }}>
+			<div style={{ position: 'relative', ...containerStyles }}>
 				<Bell style={{ cursor: 'pointer' }} onClick={toggle}>
 					Messages
 				</Bell>
@@ -58,11 +79,12 @@ export const NotificationButton = ({ apiKey, id, isDev, isLocal, position }: pro
 							height: '350px',
 							overflowY: 'scroll',
 							borderRadius: '5px',
-							boxShadow: '0 0 20px rgb(89 102 122 / 50%)',
+							boxShadow: '0 0 20px rgb(89 102 122 / 35%)',
 							position: 'absolute',
 							left: position === 'left' ? -278 : 0,
 							right: position === 'right' ? 278 : 0,
 							zIndex: '999 !important',
+							...messageBoxStyles,
 						}}>
 						<div
 							style={{
@@ -74,6 +96,7 @@ export const NotificationButton = ({ apiKey, id, isDev, isLocal, position }: pro
 								fontWeight: '500',
 								height: '50px',
 								position: 'sticky',
+								...headerStyles,
 							}}>
 							Notifications
 							<X style={{ cursor: 'pointer' }} size={16} onClick={toggle} />
@@ -83,13 +106,31 @@ export const NotificationButton = ({ apiKey, id, isDev, isLocal, position }: pro
 								No Notification Yet!!
 							</div>
 						)}
-						{messages.map((elem: any, index: number) => (
-							<MessageCard
-								key={index}
-								text={JSON.parse(elem.json_data).text}
-								time={moment.duration(moment(elem.createdAt).diff(moment())).humanize(true)}
-							/>
-						))}
+						{messages.map((elem: any, index: number) => {
+							if (messages.length === index + 1)
+								return (
+									<div ref={lastElem} key={index}>
+										<MessageCard
+											text={JSON.parse(elem.json_data).text}
+											time={moment.duration(moment(elem.createdAt).diff(moment())).humanize(true)}
+											textStyles={textStyles ?? {}}
+											ruleStyles={ruleStyles ?? {}}
+										/>
+									</div>
+								);
+							else
+								return (
+									<div key={index}>
+										<MessageCard
+											text={JSON.parse(elem.json_data).text}
+											time={moment.duration(moment(elem.createdAt).diff(moment())).humanize(true)}
+											textStyles={textStyles ?? {}}
+											ruleStyles={ruleStyles ?? {}}
+										/>
+									</div>
+								);
+						})}
+						<div>{loading && 'Loading...'}</div>
 					</div>
 				)}
 			</div>
