@@ -5,7 +5,7 @@ interface props {
 	ruleStyles: object;
 }
 
-const MessageCard = ({ text, time, textStyles, ruleStyles }: props) => {
+export const MessageCard = ({ text, time, textStyles, ruleStyles }: props) => {
 	return (
 		<>
 			<div
@@ -22,5 +22,3 @@ const MessageCard = ({ text, time, textStyles, ruleStyles }: props) => {
 		</>
 	);
 };
-
-export default MessageCard;

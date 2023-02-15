@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from 'react';
 import moment from 'moment';
 import { Bell, X } from 'react-feather';
 
-import MessageCard from './MessageCard';
+import { MessageCard } from './MessageCard';
 import useInfiniteScrolling from './useInfiniteScrolling';
 
 interface props {
