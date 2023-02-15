@@ -1,4 +1,11 @@
-const MessageCard = ({ key, text, time }: { key: number; text: string; time: string }) => {
+interface props {
+	text: string;
+	time: string;
+	textStyles: object;
+	ruleStyles: object;
+}
+
+const MessageCard = ({ text, time, textStyles, ruleStyles }: props) => {
 	return (
 		<>
 			<div
@@ -8,10 +15,10 @@ const MessageCard = ({ key, text, time }: { key: number; text: string; time: str
 					alignItems: 'center',
 					margin: '0 15px',
 				}}>
-				<p>{text}</p>
-				<p style={{ opacity: '0.5', fontSize: '14px' }}>{time}</p>
+				<p style={{ ...textStyles }}>{text}</p>
+				<p style={{ fontSize: '14px', ...textStyles }}>{time}</p>
 			</div>
-			<hr style={{ opacity: '0.5' }} />
+			<hr style={{ opacity: '0.5', ...ruleStyles }} />
 		</>
 	);
 };
