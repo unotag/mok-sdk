@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.5.1
+
+### Patch Changes
+
+- 5f1877c: Custom Styling props added and Infinite Scrolling
+
 ## 0.5.0
 
 ### Minor Changes
