@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.6.0
+
+### Minor Changes
+
+- 2b22a63: SDK Config added
+
 ## 0.5.1
 
 ### Patch Changes
