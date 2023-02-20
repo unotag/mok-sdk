@@ -1,22 +1,12 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import { Bell, X } from 'react-feather';
 
 import { MessageCard } from './MessageCard';
-import useInfiniteScrolling from './useInfiniteScrolling';
-
-interface props {
-	apiKey: string;
-	id: string;
-	isDev?: boolean;
-	isLocal?: boolean;
-	position?: string;
-	containerStyles?: object;
-	messageBoxStyles?: object;
-	headerStyles?: object;
-	textStyles?: object;
-	ruleStyles?: object;
-}
+import { NotificationButtonProps, stylesProp } from '../types';
+import { getStylesData } from '../hooks/useFetch';
+import useInfiniteScrolling from '../hooks/useInfiniteScrolling';
+import { Shade } from '../utils';
 
 export const NotificationButton = ({
 	apiKey,
@@ -29,9 +19,13 @@ export const NotificationButton = ({
 	headerStyles,
 	textStyles,
 	ruleStyles,
-}: props) => {
+}: NotificationButtonProps) => {
 	const [clicked, setClicked] = useState(false);
 	const [pageNum, setPageNum] = useState(1);
+	const [stylesData, setStylesData] = useState<stylesProp>();
+
+	const titleTextColor = Shade(stylesData?.titleBarBgColor) === 'light' ? '#000' : '#fff';
+	const boxTextColor = Shade(stylesData?.notificationBgColor) === 'light' ? '#000' : '#fff';
 
 	const toggle = () => setClicked((p) => !p);
 
@@ -65,7 +59,11 @@ export const NotificationButton = ({
 		},
 		[loading, hasMore]
 	);
-  
+
+	useEffect(() => {
+		getStylesData(BASE_URL, apiKey, setStylesData);
+	}, []);
+
 	return (
 		<>
 			<div style={{ position: 'relative', ...containerStyles }}>
@@ -79,6 +77,8 @@ export const NotificationButton = ({
 							height: '350px',
 							overflowY: 'scroll',
 							borderRadius: '5px',
+							backgroundColor: stylesData?.notificationBgColor,
+							color: boxTextColor,
 							boxShadow: '0 0 20px rgb(89 102 122 / 35%)',
 							position: 'absolute',
 							left: position === 'left' ? -278 : 0,
@@ -91,7 +91,8 @@ export const NotificationButton = ({
 								display: 'flex',
 								justifyContent: 'space-between',
 								alignItems: 'center',
-								backgroundColor: '#D3D3D3',
+								backgroundColor: stylesData?.titleBarBgColor,
+								color: titleTextColor,
 								padding: '0 15px',
 								fontWeight: '500',
 								height: '50px',
@@ -101,36 +102,45 @@ export const NotificationButton = ({
 							Notifications
 							<X style={{ cursor: 'pointer' }} size={16} onClick={toggle} />
 						</div>
-						{!messages.length && (
+						{!messages.length ? (
 							<div style={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}>
 								No Notification Yet!!
 							</div>
+						) : (
+							<>
+								{messages.map((elem: any, index: number) => {
+									if (messages.length === index + 1)
+										return (
+											<div ref={lastElem} key={index}>
+												<MessageCard
+													text={JSON.parse(elem.json_data).text}
+													time={moment
+														.duration(moment.utc(elem.createdAt).diff(moment()))
+														.humanize(true)}
+													textColor={boxTextColor}
+													textStyles={textStyles ?? {}}
+													ruleStyles={ruleStyles ?? {}}
+												/>
+											</div>
+										);
+									else
+										return (
+											<div key={index}>
+												<MessageCard
+													text={JSON.parse(elem.json_data).text}
+													time={moment
+														.duration(moment.utc(elem.createdAt).diff(moment()))
+														.humanize(true)}
+													textColor={boxTextColor}
+													textStyles={textStyles ?? {}}
+													ruleStyles={ruleStyles ?? {}}
+												/>
+											</div>
+										);
+								})}
+								<div>{loading && 'Loading...'}</div>
+							</>
 						)}
-						{messages.map((elem: any, index: number) => {
-							if (messages.length === index + 1)
-								return (
-									<div ref={lastElem} key={index}>
-										<MessageCard
-											text={JSON.parse(elem.json_data).text}
-											time={moment.duration(moment(elem.createdAt).diff(moment())).humanize(true)}
-											textStyles={textStyles ?? {}}
-											ruleStyles={ruleStyles ?? {}}
-										/>
-									</div>
-								);
-							else
-								return (
-									<div key={index}>
-										<MessageCard
-											text={JSON.parse(elem.json_data).text}
-											time={moment.duration(moment(elem.createdAt).diff(moment())).humanize(true)}
-											textStyles={textStyles ?? {}}
-											ruleStyles={ruleStyles ?? {}}
-										/>
-									</div>
-								);
-						})}
-						<div>{loading && 'Loading...'}</div>
 					</div>
 				)}
 			</div>
