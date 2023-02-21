@@ -1,4 +1,5 @@
 import { MessageCardProps } from '../types';
+import { formatDate } from '../utils';
 
 export const MessageCard = ({
 	text,
@@ -18,7 +19,7 @@ export const MessageCard = ({
 					color: textColor,
 				}}>
 				<p style={{ ...textStyles }}>{text}</p>
-				<p style={{ fontSize: '14px', ...textStyles }}>{time}</p>
+				<p style={{ fontSize: '14px', ...textStyles }}>{formatDate(time)}</p>
 			</div>
 			<hr style={{ opacity: '0.5', ...ruleStyles, color: textColor }} />
 		</>
