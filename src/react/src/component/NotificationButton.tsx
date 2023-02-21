@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import moment from 'moment';
 import { Bell, X } from 'react-feather';
 
 import { MessageCard } from './MessageCard';
@@ -114,9 +113,7 @@ export const NotificationButton = ({
 											<div ref={lastElem} key={index}>
 												<MessageCard
 													text={JSON.parse(elem.json_data).text}
-													time={moment
-														.duration(moment.utc(elem.createdAt).diff(moment()))
-														.humanize(true)}
+                          time={elem.createdAt}
 													textColor={boxTextColor}
 													textStyles={textStyles ?? {}}
 													ruleStyles={ruleStyles ?? {}}
@@ -128,9 +125,7 @@ export const NotificationButton = ({
 											<div key={index}>
 												<MessageCard
 													text={JSON.parse(elem.json_data).text}
-													time={moment
-														.duration(moment.utc(elem.createdAt).diff(moment()))
-														.humanize(true)}
+													time={elem.createdAt}
 													textColor={boxTextColor}
 													textStyles={textStyles ?? {}}
 													ruleStyles={ruleStyles ?? {}}

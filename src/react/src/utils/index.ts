@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export function Shade(color: any) {
 	// To handle Edge cases where color is undefined
 	if (!color) return 'light';
@@ -30,4 +32,13 @@ export function Shade(color: any) {
 	} else {
 		return 'dark';
 	}
+}
+
+export function formatDate(date: any) {
+	const now = moment();
+  const reqDate = moment(moment(date).utc().format('YYYY-MM-DD HH:mm:ss'));
+
+	const diff = moment.duration(reqDate.diff(now)).humanize(true);
+
+	return diff;
 }
