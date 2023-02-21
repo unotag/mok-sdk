@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.6.1
+
+### Patch Changes
+
+- 35e1c9e: Notification Time fixes
+
 ## 0.6.0
 
 ### Minor Changes
