@@ -34,7 +34,7 @@ jobs:
       - name: Obfuscating js files
         env: 
           OBFUSCATION_PARAMS: ${{ secrets.OBFUSCATION_PARAMS }}
-        run: javascript-obfuscator ./dist $OBFUSCATION_PARAMS
+        run: sudo pnpm javascript-obfuscator ./dist $OBFUSCATION_PARAMS
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@v1
