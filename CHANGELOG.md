@@ -1,5 +1,13 @@
 # @mok.one/sdk
 
+## 0.7.1
+
+### Patch Changes
+
+- 3dc872b: Obfuscating js files
+- 2ea679f: is server check fix
+- 03c42dc: obfuscator script added
+
 ## 0.7.0
 
 ### Minor Changes
