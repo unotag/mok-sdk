@@ -1,4 +1,53 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { webcrypto } from 'node:crypto';
+
+import key from '../key';
+
+const isServer = !(typeof window != 'undefined' && window.document);
+
+const getEncryptedHeader = async (data: any) => {
+	const currCrypto = getCrypto();
+	const algorithmParameters = {
+		name: 'RSASSA-PKCS1-v1_5',
+		modulusLength: 4096,
+		publicExponent: new Uint8Array([1, 0, 1]),
+		hash: 'SHA-256',
+	};
+
+	const normalKey = await currCrypto.subtle.importKey(
+		'jwk',
+		key,
+		algorithmParameters,
+		true,
+		['sign']
+	)
+
+	const message = JSON.stringify(data);
+	const encoder = new TextEncoder();
+
+	const signatureBytes = await currCrypto.subtle.sign(
+		algorithmParameters,
+		normalKey,
+		encoder.encode(message)
+	);
+	if (isServer) {
+		return btoa(
+			String.fromCharCode.apply(null, new Uint8Array(signatureBytes))
+		);
+	} else {
+		return window.btoa(
+			String.fromCharCode.apply(null, new Uint8Array(signatureBytes))
+		);
+	}
+}
+
+const getCrypto = () => {
+	if (isServer) {
+		return webcrypto
+	} else {
+		return window.crypto
+	}
+}
 
 export class Client {
 	readKey: string;
@@ -7,20 +56,22 @@ export class Client {
 	clientId: string;
 
 	setUserProperty(data: object) {
-		return new Promise((resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 			if (!this.writeKey) {
 				reject('Write API Key is not present');
 			}
 			if (!this.clientId) {
 				reject('External id is not present');
 			}
+			const base64body = await getEncryptedHeader(data);
 
 			const config: AxiosRequestConfig = {
 				method: 'PATCH',
 				url: `https://${this.BASE_URL}/api/customer/registration/${this.clientId}`,
 				headers: {
 					'Authorization': this.writeKey,
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'x-signature': base64body
 				},
 				data
 			}
@@ -62,7 +113,7 @@ export class Client {
 	}
 
 	computeData(data: any[], goalName: string) {
-		return new Promise((resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 			if (!this.writeKey) {
 				reject('Write API Key is not present');
 			}
@@ -73,6 +124,8 @@ export class Client {
 				}
 			}
 
+			const base64body = await getEncryptedHeader(data)
+
 			axios
 				.post(
 					`https://${this.BASE_URL}/api/customer/compute/${goalName}`,
@@ -80,6 +133,7 @@ export class Client {
 					{
 						headers: {
 							Authorization: this.writeKey,
+							'x-signature': base64body
 						},
 					}
 				)
@@ -93,17 +147,20 @@ export class Client {
 	}
 
 	triggerNotificationWorkflow(uuid: string, data: object) {
-		return new Promise((resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 			if (!this.writeKey) {
 				reject('Write API Key is not present');
 			}
+
+			const base64body = await getEncryptedHeader(data)
 
 			const config: AxiosRequestConfig = {
 				method: 'POST',
 				url: `https://${this.BASE_URL}/api/customer/trigger/${uuid}`,
 				headers: {
 					'Authorization': this.writeKey,
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'x-signature': base64body
 				},
 				data
 			}
