@@ -1,5 +1,17 @@
 # @mok.one/sdk
 
+## 0.7.0
+
+### Minor Changes
+
+- 1f641b1: encrpytion logic added for post/patch/put api calls
+
+### Patch Changes
+
+- 57a76ba: fix in job
+- f2978d0: fix ci warnings
+- da27b25: changes in publish cd
+
 ## 0.6.1
 
 ### Patch Changes
