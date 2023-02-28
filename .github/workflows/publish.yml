@@ -20,7 +20,8 @@ jobs:
           cache: "pnpm"
 
       - name: Create and populate private key file
-        env: PRIVATE_KEY_JSOBJ: ${{ secrets.PRIVATE_KEY_JSOBJ }}
+        env: 
+          PRIVATE_KEY_JSOBJ: ${{ secrets.PRIVATE_KEY_JSOBJ }}
         run: |
           cat <<EOF > key.js
           $PRIVATE_KEY_JSOBJ
