@@ -19,6 +19,14 @@ jobs:
           node-version: 16.x
           cache: "pnpm"
 
+      - name: Create and populate private key file
+        env: PRIVATE_KEY_JSOBJ: ${{ secrets.PRIVATE_KEY_JSOBJ }}
+        run: |
+          cat <<EOF > key.js
+          $PRIVATE_KEY_JSOBJ
+          EOF
+
+          ls key.js
       - run: pnpm install --frozen-lockfile
       - name: Create Release Pull Request or Publish
         id: changesets
