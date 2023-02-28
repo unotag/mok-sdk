@@ -3,9 +3,9 @@ import { webcrypto } from 'node:crypto';
 
 import key from '../key';
 
-const isServer = !(typeof window != 'undefined' && window.document);
 
 const getEncryptedHeader = async (data: any) => {
+	const isServer = !(typeof window != 'undefined' && window.document);
 	const currCrypto = getCrypto();
 	const algorithmParameters = {
 		name: 'RSASSA-PKCS1-v1_5',
@@ -42,6 +42,7 @@ const getEncryptedHeader = async (data: any) => {
 }
 
 const getCrypto = () => {
+	const isServer = !(typeof window != 'undefined' && window.document);
 	if (isServer) {
 		return webcrypto
 	} else {
