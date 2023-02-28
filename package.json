@@ -23,7 +23,7 @@
     "copyReactBuild": "(npm run addFolder && npm run copyFiles) || npm run copyFiles",
     "reactBuild": "cd src/react && npm i && npm run build",
     "build": "tsup src/app.ts --format cjs,esm --dts && npm run reactBuild  && npm run copyReactBuild",
-    "release": "pnpm run build && changeset publish"
+    "release": "changeset publish"
   },
   "keywords": [],
   "author": "Unotag Gamification Platform",
@@ -38,6 +38,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.3.0",
     "eslint-plugin-promise": "^6.0.1",
+    "javascript-obfuscator": "^4.0.2",
     "tsup": "^6.5.0",
     "typescript": "^4.8.3"
   },

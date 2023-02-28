@@ -29,6 +29,10 @@ jobs:
 
           ls key.js
       - run: pnpm install --frozen-lockfile
+      - name: Building files
+        run: pnpm run build
+      - name: Obfuscating js files
+        run: ls
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@v1
