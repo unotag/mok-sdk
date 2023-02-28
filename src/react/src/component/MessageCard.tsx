@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { MessageCardProps } from '../types';
 import { formatDate } from '../utils';
 
