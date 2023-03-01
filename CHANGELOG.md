@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.7.2
+
+### Patch Changes
+
+- 8e9947d: conditional import of webcrypto
+
 ## 0.7.1
 
 ### Patch Changes
