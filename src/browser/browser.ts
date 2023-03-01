@@ -1,8 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
-const { webcrypto } = require('node:crypto');
 
-import key from '../key';
-
+import key from "../../key";
 
 const getEncryptedHeader = async (data: any) => {
 	const algorithmParameters = {
@@ -12,7 +10,7 @@ const getEncryptedHeader = async (data: any) => {
 		hash: 'SHA-256',
 	};
 
-	const normalKey = await webcrypto.subtle.importKey(
+	const normalKey = await window.crypto.subtle.importKey(
 		'jwk',
 		key,
 		algorithmParameters,
@@ -23,17 +21,17 @@ const getEncryptedHeader = async (data: any) => {
 	const message = JSON.stringify(data);
 	const encoder = new TextEncoder();
 
-	const signatureBytes = await webcrypto.subtle.sign(
+	const signatureBytes = await window.crypto.subtle.sign(
 		algorithmParameters,
 		normalKey,
 		encoder.encode(message)
 	);
-	return btoa(
-		String.fromCharCode.apply(null, new Uint8Array(signatureBytes))
-	);
+
+	return window.btoa(String.fromCharCode.apply(null, new Uint8Array(signatureBytes)))
+
 }
 
-export class Client {
+export class BrowserClient {
 	readKey: string;
 	writeKey: string;
 	BASE_URL = 'live.mok.one';
