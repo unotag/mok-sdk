@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.7.3
+
+### Patch Changes
+
+- c38428f: browser code added
+
 ## 0.7.2
 
 ### Patch Changes
