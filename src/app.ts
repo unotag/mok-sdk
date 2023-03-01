@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { webcrypto } from 'node:crypto';
 
 import key from '../key';
 
@@ -44,6 +43,7 @@ const getEncryptedHeader = async (data: any) => {
 const getCrypto = () => {
 	const isServer = !(typeof window != 'undefined' && window.document);
 	if (isServer) {
+		const { webcrypto } = require('node:crypto');
 		return webcrypto
 	} else {
 		return window.crypto
