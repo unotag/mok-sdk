@@ -31,8 +31,8 @@ export const NotificationButton = ({
 	const BASE_URL = isDev
 		? 'https://dev.mok.one'
 		: isLocal
-		? 'http://localhost:8080'
-		: 'https://live.mok.one';
+			? 'http://localhost:8080'
+			: 'https://live.mok.one';
 
 	const {
 		data: messages,
@@ -113,7 +113,7 @@ export const NotificationButton = ({
 											<div ref={lastElem} key={index}>
 												<MessageCard
 													text={JSON.parse(elem.json_data).text}
-                          time={elem.createdAt}
+													time={elem.createdAt}
 													textColor={boxTextColor}
 													textStyles={textStyles ?? {}}
 													ruleStyles={ruleStyles ?? {}}

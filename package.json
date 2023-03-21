@@ -2,13 +2,23 @@
   "name": "@mok.one/sdk",
   "version": "0.7.3",
   "description": "",
+  "files": [
+    "dist"
+  ],
   "main": "dist/app.js",
   "types": "dist/app.d.ts",
   "module": "dist/app.mjs",
   "exports": {
     ".": "./dist/app.js",
-    "./react": "./dist/react/react.es.js",
-    "./browser": "./dist/browser.js"
+    "./react": {
+      "import": "./dist/react/react.es.js",
+      "require": "./dist/react/react.umd.js"
+    },
+    "./browser": "./dist/browser.js",
+    "./vue": {
+      "import": "./dist/vue/vue.es.js",
+      "require": "./dist/vue/vue.umd.js"
+    }
   },
   "typesVersions": {
     "*": {
@@ -20,10 +30,14 @@
   "scripts": {
     "lint": "tsc",
     "addFolder": "cd ./dist && mkdir react",
+    "vueAddFolder": "cd ./dist && mkdir vue",
     "copyFiles": "copyfiles -f src/react/dist/*.js dist/react",
+    "copyFilesVue": "copyfiles -f src/vue/dist/*.js dist/vue",
     "copyReactBuild": "(npm run addFolder && npm run copyFiles) || npm run copyFiles",
     "reactBuild": "cd src/react && npm i && npm run build",
-    "build": "tsup src/app.ts --format cjs,esm --dts && tsup src/browser/browser.ts --format cjs,esm --dts && npm run reactBuild  && npm run copyReactBuild",
+    "copyVueBuild": "(npm run vueAddFolder && npm run copyFilesVue) || npm run copyFilesVue",
+    "vueBuild": "cd src/vue && npm i && npm run build",
+    "build": "tsup src/app.ts --format cjs,esm --dts && tsup src/browser/browser.ts --format cjs,esm --dts && npm run reactBuild  && npm run copyReactBuild && npm run vueBuild && npm run copyVueBuild",
     "release": "changeset publish"
   },
   "keywords": [],
