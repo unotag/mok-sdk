@@ -14,9 +14,6 @@
     "paths": {
       "mok-sdk": [
         "dist/mok-sdk"
-      ],
-      "my-notifications": [
-        "dist/my-notifications"
       ]
     },
     "declaration": false,
