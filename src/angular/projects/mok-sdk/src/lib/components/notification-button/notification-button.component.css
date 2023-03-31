@@ -1,0 +1,41 @@
+.notification-box {
+    width: 300px;
+    height: 350px;
+    border-radius: 5px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    background-color: var(--notification-bg-color);
+    color: var(--box-text-color);
+    box-shadow: 0 0 20px rgba(89, 102, 122, 0.35);
+    z-index: 999 !important;
+  }
+  .scrollable{
+    overflow-y: scroll;
+  }
+  
+  .notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .message-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .notification-content {
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+  }
+  
+  .notification-box.left {
+    left: -278px;
+  }
+  
+  .notification-box.right {
+    right: 278px;
+  }
+  
