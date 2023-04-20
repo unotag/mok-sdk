@@ -8,6 +8,9 @@
   "main": "dist/app.js",
   "types": "dist/app.d.ts",
   "module": "dist/app.mjs",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "exports": {
     ".": "./dist/app.js",
     "./react": {
