@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.7.5
+
+### Patch Changes
+
+- d9adf7b: added check for node version >= 16
+
 ## 0.7.4
 
 ### Patch Changes
