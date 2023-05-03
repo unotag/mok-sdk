@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 export function getStylesData(baseUrl: string, key: string, setState: Function) {
 	const config: AxiosRequestConfig = {
 		method: 'GET',
-		url: `${baseUrl}/api/customer/sdk_config`,
+		url: `${baseUrl}/api/customer/v1.2/sdk_config`,
 		headers: {
 			Authorization: key,
 			'Content-Type': 'application/json',
