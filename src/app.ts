@@ -33,6 +33,7 @@ const getEncryptedHeader = async (data: any) => {
 	);
 }
 
+
 export class Client {
 	readKey: string;
 	writeKey: string;
