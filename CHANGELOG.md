@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.7.6
+
+### Patch Changes
+
+- 209e429: api versioning added
+
 ## 0.7.5
 
 ### Patch Changes
