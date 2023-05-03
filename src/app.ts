@@ -36,7 +36,7 @@ const getEncryptedHeader = async (data: any) => {
 export class Client {
 	readKey: string;
 	writeKey: string;
-	BASE_URL = 'live.mok.one';
+	BASE_URL = 'https://live.mok.one/api/customer/v1.2';
 	clientId: string;
 
 	setUserProperty(data: object) {
@@ -51,7 +51,7 @@ export class Client {
 
 			const config: AxiosRequestConfig = {
 				method: 'PATCH',
-				url: `https://${this.BASE_URL}/api/customer/registration/${this.clientId}`,
+				url: `${this.BASE_URL}/registration/${this.clientId}`,
 				headers: {
 					'Authorization': this.writeKey,
 					'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export class Client {
 	}
 
 	setDev(dev: boolean) {
-		if (dev) this.BASE_URL = 'dev.mok.one';
+		if (dev) this.BASE_URL = 'https://dev.mok.one/api/customer/v1.2';
 		return this;
 	}
 
@@ -112,7 +112,7 @@ export class Client {
 
 			axios
 				.post(
-					`https://${this.BASE_URL}/api/customer/compute/${goalName}`,
+					`${this.BASE_URL}/compute/${goalName}`,
 					{ data },
 					{
 						headers: {
@@ -140,7 +140,7 @@ export class Client {
 
 			const config: AxiosRequestConfig = {
 				method: 'POST',
-				url: `https://${this.BASE_URL}/api/customer/trigger/${uuid}`,
+				url: `${this.BASE_URL}/trigger/${uuid}`,
 				headers: {
 					'Authorization': this.writeKey,
 					'Content-Type': 'application/json',

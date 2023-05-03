@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Shade } from '../utils';
 
 const getStylesData = async (baseUrl, apiKey) => {
-  const response = await axios.get(`${baseUrl}/api/customer/sdk_config`, {
+  const response = await axios.get(`${baseUrl}/api/customer/v1.2/sdk_config`, {
     headers: {
       Authorization: apiKey,
       'Content-Type': 'application/json',

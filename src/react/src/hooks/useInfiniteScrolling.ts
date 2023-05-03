@@ -20,7 +20,7 @@ export default function useInfiniteScrolling(
 
 		axios({
 			method: 'GET',
-			url: `${baseUrl}/api/customer/in_app_operation_data?external_player_id=${id}`,
+			url: `${baseUrl}/api/customer/v1.2/in_app_operation_data?external_player_id=${id}`,
 			params: {
 				pageNo,
 				pageSize,
