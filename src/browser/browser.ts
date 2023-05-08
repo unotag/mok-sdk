@@ -2,6 +2,11 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 import key from "../../key";
 
+const commenHeaders = {
+	'User-Agent': 'MokSDK/0.7.5',
+	'Content-Type': 'application/json',
+}
+
 const getEncryptedHeader = async (data: any) => {
 	const algorithmParameters = {
 		name: 'RSASSA-PKCS1-v1_5',
@@ -52,8 +57,8 @@ export class BrowserClient {
 				url: `${this.BASE_URL}/registration/${this.clientId}`,
 				headers: {
 					'Authorization': this.writeKey,
-					'Content-Type': 'application/json',
-					'x-signature': base64body
+					'x-signature': base64body,
+					...commenHeaders
 				},
 				data
 			}
@@ -115,7 +120,8 @@ export class BrowserClient {
 					{
 						headers: {
 							Authorization: this.writeKey,
-							'x-signature': base64body
+							'x-signature': base64body,
+							...commenHeaders
 						},
 					}
 				)
@@ -141,8 +147,8 @@ export class BrowserClient {
 				url: `${this.BASE_URL}/trigger/${uuid}`,
 				headers: {
 					'Authorization': this.writeKey,
-					'Content-Type': 'application/json',
-					'x-signature': base64body
+					'x-signature': base64body,
+					...commenHeaders
 				},
 				data
 			}

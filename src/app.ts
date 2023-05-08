@@ -3,6 +3,10 @@ const { webcrypto } = require('node:crypto');
 
 import key from '../key';
 
+const commenHeaders = {
+	'User-Agent': 'MokSDK/0.7.5',
+	'Content-Type': 'application/json',
+}
 
 const getEncryptedHeader = async (data: any) => {
 	const algorithmParameters = {
@@ -55,8 +59,8 @@ export class Client {
 				url: `${this.BASE_URL}/registration/${this.clientId}`,
 				headers: {
 					'Authorization': this.writeKey,
-					'Content-Type': 'application/json',
-					'x-signature': base64body
+					'x-signature': base64body,
+					...commenHeaders
 				},
 				data
 			}
@@ -118,7 +122,8 @@ export class Client {
 					{
 						headers: {
 							Authorization: this.writeKey,
-							'x-signature': base64body
+							'x-signature': base64body,
+							...commenHeaders
 						},
 					}
 				)
@@ -144,8 +149,8 @@ export class Client {
 				url: `${this.BASE_URL}/trigger/${uuid}`,
 				headers: {
 					'Authorization': this.writeKey,
-					'Content-Type': 'application/json',
-					'x-signature': base64body
+					'x-signature': base64body,
+					...commenHeaders
 				},
 				data
 			}
