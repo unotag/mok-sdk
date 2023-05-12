@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.7.7
+
+### Patch Changes
+
+- 4f7bb75: backwards compatibility for node
+
 ## 0.7.6
 
 ### Patch Changes
