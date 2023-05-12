@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
-const { webcrypto } = require('node:crypto');
+const { Crypto } = require("@peculiar/webcrypto");
+
+const webcrypto = new Crypto();
 
 import key from '../key';
 
@@ -28,9 +30,17 @@ const getEncryptedHeader = async (data: any) => {
 		normalKey,
 		encoder.encode(message)
 	);
-	return btoa(
-		String.fromCharCode.apply(null, new Uint8Array(signatureBytes))
-	);
+
+	if (parseInt(process.versions.node.split(".")[0]) > 14) {
+		return btoa(
+			String.fromCharCode.apply(null, new Uint8Array(signatureBytes))
+		);
+  	} else {
+		return new Buffer(
+			String.fromCharCode.apply(null, new Uint8Array(signatureBytes))
+		).toString("base64");
+  }
+
 }
 
 
