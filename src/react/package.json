@@ -15,7 +15,8 @@
     "moment": "^2.29.4",
     "react": ">= 16.0.0",
     "react-dom": ">= 16.0.0",
-    "react-feather": "^2.0.10"
+    "react-feather": "^2.0.10",
+    "styled-components": "^6.0.0-rc.1"
   },
   "peerDependencies": {
     "react": ">= 16.0.0",

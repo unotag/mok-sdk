@@ -1,30 +1,35 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Bell, X } from 'react-feather';
+import { Bell, X, Settings, Check} from 'react-feather';
 
 import { MessageCard } from './MessageCard';
-import { NotificationButtonProps, stylesProp } from '../types';
+import { ConfigProps, NotificationButtonProps } from '../types';
 import { getStylesData } from '../hooks/useFetch';
 import useInfiniteScrolling from '../hooks/useInfiniteScrolling';
 import { Shade } from '../utils';
+import { Settings as OrgSetting } from './Settings';
+import { markAllAsRead } from '../hooks/useMarkAllRead';
 
 export const NotificationButton = ({
-	apiKey,
+	readKey,
+	writeKey,
 	id,
 	isDev,
 	isLocal,
-	position,
 	messageBoxStyles,
 	containerStyles,
 	headerStyles,
 	textStyles,
 	ruleStyles,
+	titleStyles,
+	fullScreen,
 }: NotificationButtonProps) => {
 	const [clicked, setClicked] = useState(false);
 	const [pageNum, setPageNum] = useState(1);
-	const [stylesData, setStylesData] = useState<stylesProp>();
+	const [configData, setConfigData] = useState<ConfigProps>();
+	const [triggerSetting, setTriggerSetting] = useState(false);
 
-	const titleTextColor = Shade(stylesData?.titleBarBgColor) === 'light' ? '#000' : '#fff';
-	const boxTextColor = Shade(stylesData?.notificationBgColor) === 'light' ? '#000' : '#fff';
+	const titleTextColor = Shade(configData?.titleBarBgColor) === 'light' ? '#000' : '#fff';
+	const boxTextColor = Shade(configData?.notificationBgColor) === 'light' ? '#000' : '#fff';
 
 	const toggle = () => setClicked((p) => !p);
 
@@ -39,7 +44,7 @@ export const NotificationButton = ({
 		loading,
 		error,
 		hasMore,
-	} = useInfiniteScrolling(BASE_URL, apiKey, id, pageNum, 10);
+	} = useInfiniteScrolling(BASE_URL, readKey, id, pageNum, 10);
 
 	const observer = useRef<any>();
 	const lastElem = useCallback(
@@ -60,28 +65,29 @@ export const NotificationButton = ({
 	);
 
 	useEffect(() => {
-		getStylesData(BASE_URL, apiKey, setStylesData);
+		getStylesData(BASE_URL, readKey, setConfigData);
 	}, []);
+
+	const handleClick = async () => {
+		await markAllAsRead(BASE_URL, id, writeKey);
+	}
 
 	return (
 		<>
-			<div style={{ position: 'relative', ...containerStyles }}>
+			<div style={{ ...containerStyles }}>
 				<Bell style={{ cursor: 'pointer' }} onClick={toggle}>
 					Messages
-				</Bell>
+				</Bell>		
 				{clicked && (
 					<div
 						style={{
-							width: '300px',
-							height: '350px',
+							width: fullScreen? '100%' : '350px',
+							height: fullScreen ? "90vh": '400px',
 							overflowY: 'scroll',
 							borderRadius: '5px',
-							backgroundColor: stylesData?.notificationBgColor,
+							backgroundColor: configData?.notificationBgColor,
 							color: boxTextColor,
-							boxShadow: '0 0 20px rgb(89 102 122 / 35%)',
-							position: 'absolute',
-							left: position === 'left' ? -278 : 0,
-							right: position === 'right' ? 278 : 0,
+							boxShadow: '0 0 20px rgb(89 102 122 / 35%)',						
 							zIndex: '999 !important',
 							...messageBoxStyles,
 						}}>
@@ -90,52 +96,77 @@ export const NotificationButton = ({
 								display: 'flex',
 								justifyContent: 'space-between',
 								alignItems: 'center',
-								backgroundColor: stylesData?.titleBarBgColor,
+								backgroundColor: configData?.titleBarBgColor,
 								color: titleTextColor,
 								padding: '0 15px',
 								fontWeight: '500',
 								height: '50px',
-								position: 'sticky',
 								...headerStyles,
 							}}>
-							Notifications
-							<X style={{ cursor: 'pointer' }} size={16} onClick={toggle} />
+							{triggerSetting ? 
+								<>
+								<X 
+									onClick={() => setTriggerSetting(!triggerSetting)}
+									style={{ cursor: 'pointer' }} 
+									size={14} 
+								/>
+								<div style={{fontSize: '14px'}}>Notification Prefrences</div>
+								</>
+								:
+								<>
+								<Settings 
+									onClick={() => setTriggerSetting(!triggerSetting)}
+									style={{ cursor: 'pointer' }} 
+									size={14} 
+								/>
+								<div style={{fontSize: '16px'}}>Notifications</div>
+								<Check style={{ cursor: 'pointer' }} size={14} onClick={handleClick} />
+							</>
+							}
 						</div>
-						{!messages.length ? (
+						{!messages.length && (
 							<div style={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}>
 								No Notification Yet!!
 							</div>
-						) : (
-							<>
-								{messages.map((elem: any, index: number) => {
-									if (messages.length === index + 1)
-										return (
-											<div ref={lastElem} key={index}>
-												<MessageCard
-													text={JSON.parse(elem.json_data).text}
-													time={elem.createdAt}
-													textColor={boxTextColor}
-													textStyles={textStyles ?? {}}
-													ruleStyles={ruleStyles ?? {}}
-												/>
-											</div>
-										);
-									else
-										return (
-											<div key={index}>
-												<MessageCard
-													text={JSON.parse(elem.json_data).text}
-													time={elem.createdAt}
-													textColor={boxTextColor}
-													textStyles={textStyles ?? {}}
-													ruleStyles={ruleStyles ?? {}}
-												/>
-											</div>
-										);
+						)}
+						{ triggerSetting ?
+						<OrgSetting baseUrl={BASE_URL} id={id} readKey={readKey} writeKey={writeKey} /> 
+						:
+						messages.map((elem: any, index: number) => {
+							if (messages.length === index + 1)
+								return (
+									<div ref={lastElem} key={index}>
+										<MessageCard
+											data={elem}
+											textColor={boxTextColor}
+											textStyles={textStyles ?? {}}
+											ruleStyles={ruleStyles ?? {}}
+											titleStyles={titleStyles ?? {}}
+											id={id}
+											baseUrl={BASE_URL}
+											readKey={readKey}
+											writeKey={writeKey}
+										/>
+									</div>
+								);
+							else
+								return (
+									<div key={index}>
+										<MessageCard
+											data={elem}
+											textColor={boxTextColor}
+											textStyles={textStyles ?? {}}
+											ruleStyles={ruleStyles ?? {}}
+											titleStyles={titleStyles ?? {}}
+											id={id}
+											baseUrl={BASE_URL}
+											readKey={readKey}
+											writeKey={writeKey}
+										/>
+									</div>
+								);
 								})}
 								<div>{loading && 'Loading...'}</div>
-							</>
-						)}
 					</div>
 				)}
 			</div>

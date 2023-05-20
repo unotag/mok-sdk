@@ -42,3 +42,7 @@ export function formatDate(date: any) {
 
 	return diff;
 }
+
+export function asyncWrap(promise: Promise<any>): any {
+    return promise.then((result) => [null, result]).catch((err) => [err]);
+}

@@ -1,25 +1,48 @@
 export interface NotificationButtonProps {
-	apiKey: string;
+	readKey: string;
+	writeKey: string;
 	id: string;
 	isDev?: boolean;
 	isLocal?: boolean;
-	position?: string;
 	containerStyles?: object;
 	messageBoxStyles?: object;
 	headerStyles?: object;
 	textStyles?: object;
 	ruleStyles?: object;
+	titleStyles?: object;
+	fullScreen?: boolean;
 }
 
-export interface stylesProp {
+export interface ConfigProps {
 	notificationBgColor: string;
 	titleBarBgColor: string;
+	categories: any;
 }
 
 export interface MessageCardProps {
-	text: string;
-	time: string;
+	data: any;
 	textColor: string;
 	textStyles: object;
 	ruleStyles: object;
+	titleStyles: object;
+	id: string;
+	baseUrl: string;
+	readKey: string;
+	writeKey: string;
 }
+
+export interface SettingsProps {
+	baseUrl: string;
+	id: string;
+	readKey: string;
+	writeKey: string;
+}
+
+interface ICategory {
+	name: string;
+	allowed: boolean;
+ 	timeWindow?: string;
+	region?: string;
+}
+
+export interface IAllowedCategories extends Array<ICategory>{}

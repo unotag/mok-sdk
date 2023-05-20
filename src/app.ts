@@ -5,6 +5,22 @@ const webcrypto = new Crypto();
 
 import key from '../key';
 
+interface IDevice {
+	os: string;
+	name: string;
+	version: string;
+	token: string;
+	type: 'apn' | 'fcm';
+}
+
+interface ICategory {
+	name: string;
+	allowed: boolean;
+ 	timeWindow?: string;
+	region?: string;
+}
+
+interface IAllowedCategories extends Array<ICategory>{}
 
 const getEncryptedHeader = async (data: any) => {
 	const algorithmParameters = {
@@ -166,5 +182,141 @@ export class Client {
 				reject(err.response.data)
 			})
 		})
+	}
+
+	setAllowedCategories(allowedCategories:IAllowedCategories) {
+		return this.setUserProperty({ allowedCategories });
+	}
+
+	getUserProperty () {
+		return new Promise(async(resolve, reject) => {
+			if (!this.readKey) {
+				reject('Read API Key is not present');
+			}
+
+			const base64body = await getEncryptedHeader({})
+
+			const config: AxiosRequestConfig = {
+				method: 'GET',
+				url: `${this.BASE_URL}/user_properties/${this.clientId}`,
+				headers: {
+					'Authorization': this.writeKey,
+					'Content-Type': 'application/json',
+					'x-signature': base64body
+				}
+			}
+
+			axios(config).then((response) => {
+				resolve(response.data)
+			}).catch((err) => {
+				reject(err.response.data)
+			})
+		})
+	}
+
+	addDevice(device: IDevice) {
+		return new Promise (async (resolve, reject) => {
+			if (!this.writeKey) {
+				reject('Write API Key is not present');
+			}
+
+			const base64body = await getEncryptedHeader(device)
+
+			const config: AxiosRequestConfig = {
+				method: 'POST',
+				url: `${this.BASE_URL}/add-device/${this.clientId}`,
+				headers: {
+					'Authorization': this.writeKey,
+					'Content-Type': 'application/json',
+					'x-signature': base64body
+				},
+				data : {device: {...device}}
+			}
+
+			axios(config).then((response) => {
+				resolve(response.data)
+			}).catch((err) => {
+				reject(err.response.data)
+			})
+		})
+	}
+
+	addUserActivity(data : {activity_name: string}) {
+		return new Promise(async (resolve, reject) => {
+			if(!this.writeKey){
+				reject('Write API Key is not present');
+			}
+
+			const base64body = await getEncryptedHeader(data)
+
+			const config: AxiosRequestConfig = {
+				method: 'POST',
+				url: `${this.BASE_URL}/add-user-activity/${this.clientId}`,
+				headers: {
+					'Authorization': this.writeKey,
+					'Content-Type': 'application/json',
+					'x-signature': base64body
+				},
+				data,
+			}
+
+			axios(config).then((response) => {
+				resolve(response.data)
+			}).catch((err) => {
+				reject(err.response.data)
+			})
+		})
+	}
+	
+	markAsRead(in_app_id: string) {
+		return new Promise(async (resolve, reject) => {
+		  	if (!this.writeKey) {
+				reject("Write API Key is not present");
+		  	}
+	
+		  	const base64body = await getEncryptedHeader({in_app_id});
+	
+		  	const config: AxiosRequestConfig = {
+				method: "PATCH",
+				url: `${this.BASE_URL}/mark_read_in_app/${this.clientId}?in_app_id=${in_app_id}`,
+				headers: {
+				Authorization: this.writeKey,
+					"Content-Type": "application/json",
+					"x-signature": base64body,
+				},
+		  	};
+	
+		  	axios(config).then((response) => {
+				resolve(response.data);
+			}).catch((err) => {
+				reject(err.response.data);
+			});
+		});
+	}
+
+	markAllAsRead() {
+		return new Promise(async (resolve, reject) => {
+			if (!this.writeKey) {
+			  reject("Write API Key is not present");
+			}
+  
+			const base64body = await getEncryptedHeader({});
+  
+			const config: AxiosRequestConfig = {
+				method: "PATCH",
+				url: `${this.BASE_URL}/mark_read_in_app/${this.clientId}?type=all`,
+				headers: {
+				Authorization: this.writeKey,
+					"Content-Type": "application/json",
+					"x-signature": base64body,
+				},
+			};
+  
+			axios(config).then((response) => {
+			  	resolve(response.data);
+		  	}).catch((err) => {
+			 	reject(err.response.data);
+		  	});
+	  	});
 	}
 }
