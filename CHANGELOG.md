@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.8.0
+
+### Minor Changes
+
+- 7c850a8: in app notification ui changed, added new ui components and api methods
+
 ## 0.7.7
 
 ### Patch Changes
