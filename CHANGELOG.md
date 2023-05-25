@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.8.1
+
+### Patch Changes
+
+- ec63a05: fixed user activity function
+
 ## 0.8.0
 
 ### Minor Changes
