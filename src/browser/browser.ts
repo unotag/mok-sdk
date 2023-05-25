@@ -229,13 +229,13 @@ export class BrowserClient {
 		})
 	}
 
-	addUserActivity(data: { activity_name: string }) {
+	addUserActivity(activity_name: string) {
 		return new Promise(async (resolve, reject) => {
 			if(!this.writeKey){
 				reject('Write API Key is not present');
 			}
 
-			const base64body = await getEncryptedHeader(data)
+			const base64body = await getEncryptedHeader(activity_name)
 
 			const config: AxiosRequestConfig = {
 				method: 'POST',
@@ -245,7 +245,7 @@ export class BrowserClient {
 					'Content-Type': 'application/json',
 					'x-signature': base64body
 				},
-				data,
+				data : {event_name: activity_name}
 			}
 
 			axios(config).then((response) => {
@@ -255,7 +255,7 @@ export class BrowserClient {
 			})
 		})
 	}
-
+	
 	markAsRead(in_app_id: string) {
 		return new Promise(async (resolve, reject) => {
 		  	if (!this.writeKey) {
