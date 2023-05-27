@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.9.0
+
+### Minor Changes
+
+- 7343e0b: disabled bell click in react sdk
+
 ## 0.8.1
 
 ### Patch Changes
