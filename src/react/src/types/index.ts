@@ -1,4 +1,5 @@
 export interface NotificationButtonProps {
+	disableBellClick?: boolean
 	readKey: string;
 	writeKey: string;
 	id: string;

@@ -10,6 +10,7 @@ import { Settings as OrgSetting } from './Settings';
 import { markAllAsRead } from '../hooks/useMarkAllRead';
 
 export const NotificationButton = ({
+	disableBellClick = false,
 	readKey,
 	writeKey,
 	id,
@@ -23,7 +24,7 @@ export const NotificationButton = ({
 	titleStyles,
 	fullScreen,
 }: NotificationButtonProps) => {
-	const [clicked, setClicked] = useState(false);
+	const [clicked, setClicked] = useState(disableBellClick);
 	const [pageNum, setPageNum] = useState(1);
 	const [configData, setConfigData] = useState<ConfigProps>();
 	const [triggerSetting, setTriggerSetting] = useState(false);
@@ -68,16 +69,19 @@ export const NotificationButton = ({
 		getStylesData(BASE_URL, readKey, setConfigData);
 	}, []);
 
-	const handleClick = async () => {
-		await markAllAsRead(BASE_URL, id, writeKey);
+	const handleClick = () => {
+		markAllAsRead(BASE_URL, id, writeKey);
 	}
 
 	return (
 		<>
 			<div style={{ ...containerStyles }}>
-				<Bell style={{ cursor: 'pointer' }} onClick={toggle}>
-					Messages
-				</Bell>		
+				{ !disableBellClick ? 
+					<Bell style={{ cursor: 'pointer' }} onClick={toggle}>
+						Messages
+					</Bell>
+					: <></>
+				}
 				{clicked && (
 					<div
 						style={{
