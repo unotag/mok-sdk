@@ -71,10 +71,10 @@ export const MessageCard = ({
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
-              ...titleStyles,
               fontSize: "13px",
               fontWeight: data.read ? "500" : "700",
               textAlign: "start",
+              ...titleStyles,
             }}
           >
             {json_data.title}
