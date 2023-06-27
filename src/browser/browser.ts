@@ -229,7 +229,7 @@ export class BrowserClient {
 		})
 	}
 
-	addUserActivity(activity_name: string) {
+	addUserActivity(activity_name: string, data?: object) {
 		return new Promise(async (resolve, reject) => {
 			if(!this.writeKey){
 				reject('Write API Key is not present');
@@ -245,7 +245,7 @@ export class BrowserClient {
 					'Content-Type': 'application/json',
 					'x-signature': base64body
 				},
-				data : {event_name: activity_name}
+				data : {event_name: activity_name, ...data}
 			}
 
 			axios(config).then((response) => {
