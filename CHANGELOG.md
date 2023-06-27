@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.9.2
+
+### Patch Changes
+
+- eb2cbbc: added support to send data in user activity
+
 ## 0.9.1
 
 ### Patch Changes
