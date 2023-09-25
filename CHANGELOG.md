@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.9.3-alpha.1
+
+### Patch Changes
+
+- aa1a864: popup overlay click disable set
+
 ## 0.9.3-alpha.0
 
 ### Patch Changes
