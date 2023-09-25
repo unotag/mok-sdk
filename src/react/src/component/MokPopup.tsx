@@ -1,17 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { PopupProps } from "../types";
 
-export const MokPopup = ({
-  readKey,
-  id,
-  isDev,
-  isLocal,
-}: PopupProps) => {
+export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
   const [clickedPopup, setClickedPopup] = useState(false);
   const [popupData, setPopupData] = useState<any>();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  
   // const toggle = () => setClickedPopup(p => !p);
 
   const BASE_URL = isDev
@@ -20,10 +14,18 @@ export const MokPopup = ({
     ? "http://localhost:8080"
     : "https://live.mok.one";
 
+  const handleOverlayClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    if (event.target === event.currentTarget) {
+      setClickedPopup(false);
+    }
+  };
+
   useEffect(() => {
     const es = new EventSource(`${BASE_URL}/server/sse`);
 
-    es.addEventListener(`event_${readKey}_${id}`, function (event) {
+    es.addEventListener(`event_${readKey}_${id}`, function(event) {
       setClickedPopup(true);
       setPopupData(JSON.parse(event.data));
     });
@@ -41,6 +43,7 @@ export const MokPopup = ({
         <>
           {popupData?.html ? (
             <div
+              onClick={handleOverlayClick}
               style={{
                 position: "fixed",
                 top: 0,
@@ -69,6 +72,7 @@ export const MokPopup = ({
             </div>
           ) : (
             <div
+              onClick={handleOverlayClick}
               style={{
                 position: "fixed",
                 top: 0,
@@ -122,7 +126,7 @@ export const MokPopup = ({
                   >
                     &times;
                   </button>
-                  </div>
+                </div>
                 <p
                   style={{
                     color: "#000000",
