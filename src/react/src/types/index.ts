@@ -39,6 +39,13 @@ export interface SettingsProps {
 	writeKey: string;
 }
 
+export interface PopupProps {
+	readKey: string;
+	id: string;
+	isDev?: boolean;
+	isLocal?: boolean;
+}
+
 interface ICategory {
 	name: string;
 	allowed: boolean;
@@ -46,4 +53,4 @@ interface ICategory {
 	region?: string;
 }
 
-export interface IAllowedCategories extends Array<ICategory>{}
+export interface IAllowedCategories extends Array<ICategory>{ }
