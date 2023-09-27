@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.9.3-alpha.2
+
+### Patch Changes
+
+- 2db4b3b: image popup added
+
 ## 0.9.3-alpha.1
 
 ### Patch Changes
