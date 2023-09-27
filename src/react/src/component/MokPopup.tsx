@@ -25,7 +25,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
   useEffect(() => {
     const es = new EventSource(`${BASE_URL}/server/sse`);
 
-    es.addEventListener(`event_${readKey}_${id}`, function(event) {
+    es.addEventListener(`event_${readKey}_${id}`, function (event) {
       setClickedPopup(true);
       setPopupData(JSON.parse(event.data));
     });
@@ -127,6 +127,10 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                     &times;
                   </button>
                 </div>
+                <img
+                  style={{ width: "100%" }}
+                  src={popupData && JSON.parse(popupData?.payload || " ").image}
+                />
                 <p
                   style={{
                     color: "#000000",
