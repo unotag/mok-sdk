@@ -59,14 +59,32 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
             >
               <div
                 style={{
-                  width: "auto",
+                  width: "75%",
+                  maxWidth: "420px",
+                  maxHeight: "80%",
                   height: "auto",
                   background: "#fff",
                   borderRadius: "10px",
                   padding: "20px",
                   textAlign: "center",
+                  overflow: "scroll",
+                  position: "relative",
                 }}
               >
+                <button
+                  onClick={() => setClickedPopup(false)}
+                  style={{
+                    backgroundColor: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                    fontSize: "28px",
+                    position: "absolute",
+                    top: "5px",
+                    right: "5px",
+                  }}
+                >
+                  &times;
+                </button>
                 <div ref={containerRef}></div>
               </div>
             </div>
@@ -88,12 +106,15 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
             >
               <div
                 style={{
-                  width: "320px",
+                  width: "75%",
+                  maxWidth: "420px",
+                  maxHeight: "80%",
                   height: "auto",
                   background: "#fff",
                   borderRadius: "10px",
                   padding: "20px",
                   textAlign: "center",
+                  overflow: "scroll",
                 }}
               >
                 <div
