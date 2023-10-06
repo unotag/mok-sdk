@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { PopupProps } from "../types";
 
 export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
-  const [clickedPopup, setClickedPopup] = useState(false);
-  const [popupData, setPopupData] = useState<any>();
+  const [clickedPopup, setClickedPopup] = useState<boolean[]>([]);
+  const [popupData, setPopupData] = useState<any[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // const toggle = () => setClickedPopup(p => !p);
@@ -18,30 +18,45 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     if (event.target === event.currentTarget) {
-      setClickedPopup(false);
+      setClickedPopup(popups => popups.slice(0, -1));
+      setPopupData(data => data.slice(0, -1));
     }
+  };
+
+  const handleClearAll = () => {
+    setClickedPopup([]);
+    setPopupData([]);
   };
 
   useEffect(() => {
     const es = new EventSource(`${BASE_URL}/server/sse`);
 
-    es.addEventListener(`event_${readKey}_${id}`, function (event) {
-      setClickedPopup(true);
-      setPopupData(JSON.parse(event.data));
-    });
+    const eventListener = (event: MessageEvent) => {
+      setClickedPopup(popups => [...popups, true]);
+      setPopupData(data => [...data, JSON.parse(event.data)]);
+    };
+
+    es.addEventListener(`event_${readKey}_${id}`, eventListener);
+
+    return () => {
+      es.removeEventListener(`event_${readKey}_${id}`, eventListener);
+      es.close();
+    };
   }, []);
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.innerHTML = popupData?.html;
+    if (containerRef.current && popupData.length > 0) {
+      containerRef.current.innerHTML = popupData[popupData.length - 1]?.html;
     }
   }, [popupData]);
 
+  const latestpopupData = popupData[popupData.length - 1];
+
   return (
     <>
-      {clickedPopup && (
+      {clickedPopup.length > 0 && clickedPopup[clickedPopup.length - 1] && (
         <>
-          {popupData?.html ? (
+          {latestpopupData?.html ? (
             <div
               onClick={handleOverlayClick}
               style={{
@@ -54,6 +69,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                flexDirection: "column",
                 zIndex: "9999",
               }}
             >
@@ -72,7 +88,10 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                 }}
               >
                 <button
-                  onClick={() => setClickedPopup(false)}
+                  onClick={() => {
+                    setClickedPopup(popups => popups.slice(0, -1));
+                    setPopupData(data => data.slice(0, -1));
+                  }}
                   style={{
                     backgroundColor: "transparent",
                     border: "none",
@@ -86,6 +105,28 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                   &times;
                 </button>
                 <div ref={containerRef}></div>
+              </div>
+              {popupData.length > 1 ? (
+                <div
+                  style={{
+                    color: "white",
+                    cursor: "pointer",
+                    fontSize: "20px",
+                  }}
+                >
+                  message {popupData.length - 1} more
+                </div>
+              ) : null}
+              <div
+                onClick={handleClearAll}
+                style={{
+                  color: "white",
+                  fontSize: "20px",
+                  bottom: "5px",
+                  position: "absolute",
+                }}
+              >
+                clear all
               </div>
             </div>
           ) : (
@@ -102,6 +143,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                 alignItems: "center",
                 justifyContent: "center",
                 zIndex: "9999",
+                flexDirection: "column",
               }}
             >
               <div
@@ -134,10 +176,14 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                       textAlign: "start",
                     }}
                   >
-                    {popupData && JSON.parse(popupData?.payload || " ").title}
+                    {latestpopupData &&
+                      JSON.parse(latestpopupData?.payload || " ").title}
                   </h1>
                   <button
-                    onClick={() => setClickedPopup(false)}
+                    onClick={() => {
+                      setClickedPopup(popups => popups.slice(0, -1));
+                      setPopupData(data => data.slice(0, -1));
+                    }}
                     style={{
                       backgroundColor: "transparent",
                       border: "none",
@@ -150,7 +196,10 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                 </div>
                 <img
                   style={{ width: "100%" }}
-                  src={popupData && JSON.parse(popupData?.payload || " ").image}
+                  src={
+                    latestpopupData &&
+                    JSON.parse(latestpopupData?.payload || " ").image
+                  }
                 />
                 <p
                   style={{
@@ -159,8 +208,32 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                     textAlign: "start",
                   }}
                 >
-                  {popupData && JSON.parse(popupData?.payload || " ").text}
+                  {latestpopupData &&
+                    JSON.parse(latestpopupData?.payload || " ").text}
                 </p>
+              </div>
+              {popupData.length > 1 ? (
+                <div
+                  style={{
+                    color: "white",
+                    cursor: "pointer",
+                    fontSize: "20px",
+                  }}
+                >
+                  message {popupData.length - 1} more
+                </div>
+              ) : null}
+
+              <div
+                onClick={handleClearAll}
+                style={{
+                  color: "white",
+                  fontSize: "20px",
+                  bottom: "5px",
+                  position: "absolute",
+                }}
+              >
+                clear all
               </div>
             </div>
           )}
