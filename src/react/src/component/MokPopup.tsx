@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { PopupProps } from "../types";
+import * as serviceWorkerRegistration from '../serviceWokerRegistration';
 
 export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
   const [clickedPopup, setClickedPopup] = useState<boolean[]>([]);
@@ -10,8 +11,8 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
   const BASE_URL = isDev
     ? "https://dev.mok.one"
     : isLocal
-    ? "http://localhost:8080"
-    : "https://live.mok.one";
+      ? "http://localhost:8080"
+      : "https://live.mok.one";
 
   const handleOverlayClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -28,6 +29,8 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
   };
 
   useEffect(() => {
+    serviceWorkerRegistration.register(id, readKey);
+
     const es = new EventSource(`${BASE_URL}/server/sse`);
 
     const eventListener = (event: MessageEvent) => {
@@ -74,7 +77,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                     return (
                       <div
                         style={{
-                          top: `${46 + index * 1.5}%`, 
+                          top: `${46 + index * 1.5}%`,
                           width: "75%",
                           maxWidth: "420px",
                           maxHeight: "70%",
@@ -84,13 +87,12 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                           padding: "20px",
                           textAlign: "center",
                           boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-                          transform: `translate(-50%, -50%) scale(${
-                            1 - index * 0.02
-                          })`, 
+                          transform: `translate(-50%, -50%) scale(${1 - index * 0.02
+                            })`,
                           position: "fixed",
                           left: "50%",
                           overflow: "auto",
-                          zIndex: 99000 - index, 
+                          zIndex: 99000 - index,
                           transition: "2s",
                         }}
                       >
@@ -184,7 +186,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                     return (
                       <div
                         style={{
-                          top: `${46 + index * 1.5}%`, 
+                          top: `${46 + index * 1.5}%`,
                           width: "75%",
                           maxWidth: "420px",
                           maxHeight: "70%",
@@ -194,13 +196,12 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                           padding: "20px",
                           textAlign: "center",
                           boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-                          transform: `translate(-50%, -50%) scale(${
-                            1 - index * 0.02
-                          })`, 
+                          transform: `translate(-50%, -50%) scale(${1 - index * 0.02
+                            })`,
                           position: "fixed",
                           left: "50%",
                           overflow: "auto",
-                          zIndex: 99000 - index, 
+                          zIndex: 99000 - index,
                           transition: "2s",
                         }}
                       >
