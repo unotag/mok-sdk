@@ -53,4 +53,18 @@ interface ICategory {
 	region?: string;
 }
 
+export interface NormalPopup {
+	popupData: { html: string }[];// Replace YourPopupDataType with the actual type for popup data
+	handleClearAll: () => void;
+	handleOverlayClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) =>void;
+	latestPopupData: any; // Replace LatestPopupDataType with the actual type for the latest popup data
+	handleCloseBtn: () => void;
+  }
+
+export interface FullPagePopup{
+	popupData: { html: string }[];
+	handleClearAll: () => void;
+	handleCloseBtn: () => void;
+}
+
 export interface IAllowedCategories extends Array<ICategory>{ }
