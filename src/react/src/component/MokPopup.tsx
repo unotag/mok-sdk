@@ -1,12 +1,34 @@
 import { useEffect, useState } from "react";
 import { PopupProps } from "../types";
 import * as serviceWorkerRegistration from '../serviceWokerRegistration';
+import { markAllAsRead, markOneAsRead } from "../hooks/useMarkAllRead";
 
-export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
+export const MokPopup = ({ readKey, id, isDev, isLocal, writeKey }: PopupProps) => {
   const [clickedPopup, setClickedPopup] = useState<boolean[]>([]);
   const [popupData, setPopupData] = useState<any[]>([]);
 
-  // const toggle = () => setClickedPopup(p => !p);
+  const cb = (data: any[]) => {
+    const newData = data.map((d) => {
+      const item = JSON.parse(d.json_data)
+      return {
+        id: d.in_app_id,
+        html: item.html,
+        popup_configs: item.popup_configs,
+        payload: {
+          category: item.category,
+          icon: item.icon,
+          image: item.image,
+          in_app_click_action: item.in_app_click_action,
+          popup_configs: item.popup_configs,
+          text: item.text,
+          title: item.title,
+        }
+      }
+    })
+
+    setClickedPopup([...Array(...newData.map(s => true))]);
+    setPopupData(newData)
+  }
 
   const BASE_URL = isDev
     ? "https://dev.mok.one"
@@ -15,21 +37,26 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
       : "https://live.mok.one";
 
   const handleOverlayClick = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    in_app_id: string | undefined
   ) => {
     if (event.target === event.currentTarget) {
       setClickedPopup(popups => popups.slice(0, -1));
       setPopupData(data => data.slice(0, -1));
+      if (in_app_id) {
+        markOneAsRead(BASE_URL, id, writeKey, in_app_id)
+      }
     }
   };
 
   const handleClearAll = () => {
     setClickedPopup([]);
     setPopupData([]);
+    markAllAsRead(BASE_URL, id, writeKey)
   };
 
   useEffect(() => {
-    serviceWorkerRegistration.register(id, readKey);
+    serviceWorkerRegistration.getPendingMessages({ userId: id, readKey, BASE_URL, writeKey, cb });
 
     const es = new EventSource(`${BASE_URL}/server/sse`);
 
@@ -54,7 +81,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
         <>
           {latestpopupData?.html ? (
             <div
-              onClick={handleOverlayClick}
+              onClick={(e) => handleOverlayClick(e, latestpopupData.id)}
               style={{
                 position: "fixed",
                 top: 0,
@@ -76,6 +103,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                   if (index < 3) {
                     return (
                       <div
+                        key={index}
                         style={{
                           top: `${46 + index * 1.5}%`,
                           width: "75%",
@@ -100,6 +128,9 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                           onClick={() => {
                             setClickedPopup(popups => popups.slice(0, -1));
                             setPopupData(data => data.slice(0, -1));
+                            if (item.id) {
+                              markOneAsRead(BASE_URL, id, writeKey, item.id)
+                            }
                           }}
                           style={{
                             backgroundColor: "transparent",
@@ -163,7 +194,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
             </div>
           ) : (
             <div
-              onClick={handleOverlayClick}
+              onClick={(e) => handleOverlayClick(e, latestpopupData.id)}
               style={{
                 position: "fixed",
                 top: 0,
@@ -185,6 +216,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                   if (index < 3) {
                     return (
                       <div
+                        key={index}
                         style={{
                           top: `${46 + index * 1.5}%`,
                           width: "75%",

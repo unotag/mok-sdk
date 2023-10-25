@@ -41,6 +41,7 @@ export interface SettingsProps {
 
 export interface PopupProps {
 	readKey: string;
+	writeKey: string;
 	id: string;
 	isDev?: boolean;
 	isLocal?: boolean;

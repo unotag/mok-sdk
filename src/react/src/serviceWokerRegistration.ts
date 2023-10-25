@@ -1,28 +1,57 @@
-export async function register(userId: string, readkey: string, writeKey?: string) {
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', async () => {
-            await navigator.serviceWorker.register('/mok-service-worker.js')
-                .then(async (registration: any) => {
-                    if (await navigator.serviceWorker.ready) {
-                        navigator.serviceWorker.controller?.postMessage({
-                            type: 'mok_sync_popup',
-                            userId: userId,
-                            readKey: readkey,
-                            writeKey: writeKey || ""
-                        }, [messageChannel.port2]);
+export async function getPendingMessages({ userId, readKey, writeKey, BASE_URL, cb }: { userId: string, readKey: string, writeKey: string, BASE_URL: string, cb: Function }) {
+    const serviceWorker = await getOrRegisterServiceWorker()
+    
+    const readyWorker = await checkServiceWorkerReady(serviceWorker)
+   
+
+    const messageChannel = new MessageChannel();
+    readyWorker.active?.postMessage({
+        type: 'mok_sync_popup',
+        userId: userId,
+        readKey: readKey,
+        writeKey: writeKey,
+        BASE_URL
+    }, [messageChannel.port1])
+
+    messageChannel.port2.onmessage = (event) => {
+        cb(event.data.payload.data)
+    };
+}
+
+const checkServiceWorkerReady = (sw: ServiceWorkerRegistration): Promise<ServiceWorkerRegistration> => {
+    return new Promise((resolve, reject) => {
+        if (sw.active) {
+            resolve(sw)
+        } else {
+            sw.addEventListener('updatefound', () => {
+                
+                const newWorker: any = sw.installing;
+                
+                newWorker.addEventListener('statechange', () => {
+                    
+                    if (newWorker.state === "activated") {
+                        
+                        resolve(sw)
                     }
                 })
-                .catch(err => {
-                    console.log(`ServiceWorker registration failed: ${err}`);
+            })
+        }
+    })
+}
+
+
+const getOrRegisterServiceWorker = () => {
+    if ('serviceWorker' in navigator) {
+        return window.navigator.serviceWorker
+            .getRegistration('/mok-sdk-popup-scope')
+            .then((serviceWorker) => {
+                if (serviceWorker) {
+                    return serviceWorker
+                };
+                return window.navigator.serviceWorker.register('/mok-service-worker.js', {
+                    scope: '/mok-sdk-popup-scope',
                 });
-        });
+            });
     }
-};
-
-
-const messageChannel = new MessageChannel();
-// Listen to the response
-messageChannel.port1.onmessage = (event) => {
-    // Print the result
-    console.log("result is coming back in the sdk =>>>>>", event.data.payload);
+    throw new Error('The browser doesn`t support service worker.');
 };
