@@ -29,34 +29,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     if (event.target === event.currentTarget) {
-      const newData = [...popupData.slice(0, -1)];
-      setPopupData(newData);
-      setClickedPopup(popups => popups.slice(0, -1));
-      if (newData.length > 0) {
-        const latestPopup = JSON.parse(
-          newData[newData.length - 1]?.popup_configs
-        );
-        if (latestPopup?.sound) {
-          playAudio(latestPopup?.sound);
-        }
-        if (
-          !latestPopup?.start_time ||
-          !latestPopup?.end_time ||
-          (new Date(latestPopup?.start_time) <= new Date() &&
-            new Date(latestPopup?.end_time) >= new Date())
-        ) {
-          if (popupTimeout) {
-            clearTimeout(popupTimeout);
-          }
-
-          if (latestPopup?.number_of_seconds_view) {
-            popupTimeout = setTimeout(() => {
-              setClickedPopup(popups => popups.slice(0, -1));
-              setPopupData(data => data.slice(0, -1));
-            }, parseInt(latestPopup?.number_of_seconds_view));
-          }
-        }
-      }
+      handleCloseBtn();
     }
   };
 
@@ -67,7 +40,6 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
 
   const handleCloseBtn = async () => {
     audio.pause();
-
     const newData = [...popupData.slice(0, -1)];
     setPopupData(newData);
     setClickedPopup(popups => popups.slice(0, -1));
@@ -103,7 +75,8 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
     const es = new EventSource(`${BASE_URL}/server/sse`);
 
     const eventListener = (event: MessageEvent) => {
-      const eventData = JSON.parse(JSON.parse(event.data).popup_configs);
+      // console.log(JSON.parse(event.data))
+      const eventData = JSON.parse(JSON.parse(event.data)?.popup_configs);
       if (
         !eventData?.start_time ||
         !eventData?.end_time ||
@@ -117,6 +90,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
         setClickedPopup(popups => [...popups, true]);
         setPopupData(data => [...data, JSON.parse(event.data)]);
         if (eventData?.sound) {
+          audio.autoplay = true;
           playAudio(eventData?.sound);
         }
         if (eventData?.number_of_seconds_view) {
@@ -149,6 +123,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                 return (
                   <FullPagePopup
                     popupData={popupData}
+                    latestPopupData={latestPopupData}
                     handleClearAll={handleClearAll}
                     handleCloseBtn={handleCloseBtn}
                   />

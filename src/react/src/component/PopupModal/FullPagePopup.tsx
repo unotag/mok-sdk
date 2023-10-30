@@ -5,6 +5,7 @@ export default function FullPagePopup({
   popupData,
   handleClearAll,
   handleCloseBtn,
+  latestPopupData
 }: FullPagePopup) {
   return (
     <>
@@ -54,7 +55,7 @@ export default function FullPagePopup({
           }}
         >
           <iframe
-            src="https://getmok-com.web.app/"
+            src={JSON.parse(latestPopupData?.popup_configs)?.web_url}
             style={{ borderWidth: "0px" }}
             width="100%"
             height="100%"

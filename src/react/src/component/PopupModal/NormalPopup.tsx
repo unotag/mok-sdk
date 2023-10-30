@@ -182,8 +182,7 @@ export default function NormalPopup({
                           textAlign: "start",
                         }}
                       >
-                        {latestPopupData &&
-                          JSON.parse(latestPopupData?.payload || " ").title}
+                        {latestPopupData && latestPopupData?.payload?.title}
                       </h1>
                       <button
                         onClick={handleCloseBtn}
@@ -200,8 +199,7 @@ export default function NormalPopup({
                     <img
                       style={{ width: "100%" }}
                       src={
-                        latestPopupData &&
-                        JSON.parse(latestPopupData?.payload || " ").image
+                        latestPopupData && latestPopupData?.payload?.image
                       }
                     />
                     <p
@@ -211,8 +209,7 @@ export default function NormalPopup({
                         textAlign: "start",
                       }}
                     >
-                      {latestPopupData &&
-                        JSON.parse(latestPopupData?.payload || " ").text}
+                      {latestPopupData && latestPopupData?.payload?.text}
                     </p>
                   </div>
                 );

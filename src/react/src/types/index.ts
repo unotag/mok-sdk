@@ -65,6 +65,7 @@ export interface FullPagePopup{
 	popupData: { html: string }[];
 	handleClearAll: () => void;
 	handleCloseBtn: () => void;
+	latestPopupData: any; 
 }
 
 export interface FloatingPopup{
