@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { PopupProps } from "../types";
 import NormalPopup from "./PopupModal/NormalPopup";
 import FullPagePopup from "./PopupModal/FullPagePopup";
+import FloatingPopup from "./PopupModal/FloatingPopup";
+import BottomSheetPopup from "./PopupModal/BottomSheetPopup";
 
 export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
   const [clickedPopup, setClickedPopup] = useState<boolean[]>([]);
@@ -148,6 +150,22 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                   <FullPagePopup
                     popupData={popupData}
                     handleClearAll={handleClearAll}
+                    handleCloseBtn={handleCloseBtn}
+                  />
+                );
+              case "pip_video":
+                return (
+                  <FloatingPopup
+                    handleOverlayClick={handleOverlayClick}
+                    popupData={popupData}
+                    handleCloseBtn={handleCloseBtn}
+                  />
+                );
+              case "bottom_sheet":
+                return (
+                  <BottomSheetPopup
+                    popupData={popupData}
+                    handleOverlayClick={handleOverlayClick}
                     handleCloseBtn={handleCloseBtn}
                   />
                 );

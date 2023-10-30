@@ -67,4 +67,16 @@ export interface FullPagePopup{
 	handleCloseBtn: () => void;
 }
 
+export interface FloatingPopup{
+	popupData: { html: string }[];
+	handleCloseBtn: () => void;
+	handleOverlayClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) =>void;
+}
+
+export interface BottomSheetPopup{
+	popupData: { html: string }[];
+	handleOverlayClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) =>void;
+	handleCloseBtn: () => void;
+}
+
 export interface IAllowedCategories extends Array<ICategory>{ }
