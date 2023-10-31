@@ -70,7 +70,7 @@ export default function FloatingPopup({
   return (
     <>
       <div
-        onClick={handleOverlayClick}
+        onClick={(event)=>handleOverlayClick(event,latestPopupData?.payload?.in_app_id)}
         id="mydiv"
         className="draggable-div"
         style={{
@@ -107,7 +107,7 @@ export default function FloatingPopup({
           />
         </video>
         <button
-          onClick={handleCloseBtn}
+          onClick={()=>handleCloseBtn(latestPopupData?.payload?.in_app_id)}
           style={{
             position: "absolute",
             top: "-10px",

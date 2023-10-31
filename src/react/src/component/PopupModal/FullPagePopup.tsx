@@ -25,7 +25,7 @@ export default function FullPagePopup({
         }}
       >
         <button
-          onClick={handleCloseBtn}
+          onClick={()=>handleCloseBtn(latestPopupData?.payload?.in_app_id)}
           style={{
             background: "rgba(0, 0, 0, 0.5)",
             border: "none",

@@ -12,7 +12,7 @@ export default function NormalPopup({
     <div>
       {latestPopupData?.html ? (
         <div
-          onClick={handleOverlayClick}
+          onClick={(event)=>handleOverlayClick(event,latestPopupData?.payload?.in_app_id)}
           style={{
             position: "fixed",
             top: 0,
@@ -56,7 +56,7 @@ export default function NormalPopup({
                     }}
                   >
                     <button
-                      onClick={handleCloseBtn}
+                      onClick={()=>handleCloseBtn(latestPopupData?.payload?.in_app_id)}
                       style={{
                         backgroundColor: "transparent",
                         border: "none",
@@ -122,7 +122,7 @@ export default function NormalPopup({
         </div>
       ) : (
         <div
-          onClick={handleOverlayClick}
+          onClick={(event)=>handleOverlayClick(event,latestPopupData?.payload?.in_app_id)}
           style={{
             position: "fixed",
             top: 0,
@@ -185,7 +185,7 @@ export default function NormalPopup({
                         {latestPopupData && latestPopupData?.payload?.title}
                       </h1>
                       <button
-                        onClick={handleCloseBtn}
+                        onClick={()=>handleCloseBtn(latestPopupData?.payload?.in_app_id)}
                         style={{
                           backgroundColor: "transparent",
                           border: "none",

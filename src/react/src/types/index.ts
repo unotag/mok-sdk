@@ -57,29 +57,29 @@ interface ICategory {
 export interface NormalPopup {
 	popupData: { html: string }[];// Replace YourPopupDataType with the actual type for popup data
 	handleClearAll: () => void;
-	handleOverlayClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) =>void;
+	handleOverlayClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>,in_app_id:string|undefined) =>void;
 	latestPopupData: any; // Replace LatestPopupDataType with the actual type for the latest popup data
-	handleCloseBtn: () => void;
+	handleCloseBtn: (in_app_id:string|undefined) => void;
   }
 
 export interface FullPagePopup{
 	popupData: { html: string }[];
 	handleClearAll: () => void;
-	handleCloseBtn: () => void;
+	handleCloseBtn: (in_app_id:string|undefined) => void;
 	latestPopupData: any; 
 }
 
 export interface FloatingPopup{
 	popupData: { html: string }[];
-	handleCloseBtn: () => void;
+	handleCloseBtn: (in_app_id:string|undefined) => void;
 	latestPopupData: any; 
-	handleOverlayClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) =>void;
+	handleOverlayClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>,in_app_id:string|undefined) =>void;
 }
 
 export interface BottomSheetPopup{
 	popupData: { html: string }[];
-	handleOverlayClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) =>void;
-	handleCloseBtn: () => void;
+	handleOverlayClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>,in_app_id:string|undefined) =>void;
+	handleCloseBtn: (in_app_id:string|undefined) => void;
 }
 
 export interface IAllowedCategories extends Array<ICategory>{ }
