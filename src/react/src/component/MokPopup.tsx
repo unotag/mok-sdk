@@ -132,7 +132,7 @@ export const MokPopup = ({
 
   const cb = (data: any[]) => {
     const newData = data.map(d => {
-      const item = JSON.parse(d.json_data);
+      const item = d.json_data;
       return {
         id: d.in_app_id,
         html: item.html,
@@ -149,8 +149,9 @@ export const MokPopup = ({
         },
       };
     });
-
-    handleAddPopupData(newData);
+    newData.map(data => {
+      handleAddPopupData(data);
+    })
   };
 
   const handleOverlayClick = (
