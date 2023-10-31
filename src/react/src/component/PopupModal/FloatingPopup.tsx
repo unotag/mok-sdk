@@ -5,6 +5,7 @@ export default function FloatingPopup({
   popupData,
   handleCloseBtn,
   handleOverlayClick,
+  latestPopupData
 }: FloatingPopup) {
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ left: 0, top: 0 });
@@ -101,7 +102,7 @@ export default function FloatingPopup({
           loop
         >
           <source
-            src="https://www.w3schools.com/tags/movie.mp4"
+            src={latestPopupData?.popup_configs?.video_url}
             type="video/mp4"
           />
         </video>

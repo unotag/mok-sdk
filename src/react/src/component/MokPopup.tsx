@@ -44,9 +44,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
     setPopupData(newData);
     setClickedPopup(popups => popups.slice(0, -1));
     if (newData.length > 0) {
-      const latestPopup = JSON.parse(
-        newData[newData.length - 1]?.popup_configs
-      );
+      const latestPopup = newData[newData.length - 1]?.popup_configs
       if (latestPopup?.sound) {
         playAudio(latestPopup?.sound);
       }
@@ -75,8 +73,8 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
     const es = new EventSource(`${BASE_URL}/server/sse`);
 
     const eventListener = (event: MessageEvent) => {
-      // console.log(JSON.parse(event.data))
-      const eventData = JSON.parse(JSON.parse(event.data)?.popup_configs);
+      console.log(JSON.parse(event.data))
+      const eventData = JSON.parse(event.data)?.popup_configs;
       if (
         !eventData?.start_time ||
         !eventData?.end_time ||
@@ -118,7 +116,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
       {clickedPopup.length > 0 && clickedPopup[clickedPopup.length - 1] && (
         <>
           {(() => {
-            switch (JSON.parse(latestPopupData.popup_configs)?.template_type) {
+            switch (latestPopupData?.popup_configs?.template_type) {
               case "full_page":
                 return (
                   <FullPagePopup
@@ -132,6 +130,7 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
                 return (
                   <FloatingPopup
                     handleOverlayClick={handleOverlayClick}
+                    latestPopupData={latestPopupData}
                     popupData={popupData}
                     handleCloseBtn={handleCloseBtn}
                   />

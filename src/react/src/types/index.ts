@@ -71,6 +71,7 @@ export interface FullPagePopup{
 export interface FloatingPopup{
 	popupData: { html: string }[];
 	handleCloseBtn: () => void;
+	latestPopupData: any; 
 	handleOverlayClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) =>void;
 }
 

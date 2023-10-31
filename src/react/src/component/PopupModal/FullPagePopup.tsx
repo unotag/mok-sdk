@@ -55,7 +55,7 @@ export default function FullPagePopup({
           }}
         >
           <iframe
-            src={JSON.parse(latestPopupData?.popup_configs)?.web_url}
+            src={latestPopupData?.popup_configs?.web_url}
             style={{ borderWidth: "0px" }}
             width="100%"
             height="100%"
