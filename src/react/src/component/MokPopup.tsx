@@ -4,19 +4,44 @@ import NormalPopup from "./PopupModal/NormalPopup";
 import FullPagePopup from "./PopupModal/FullPagePopup";
 import FloatingPopup from "./PopupModal/FloatingPopup";
 import BottomSheetPopup from "./PopupModal/BottomSheetPopup";
+import * as serviceWorkerRegistration from '../serviceWokerRegistration';
+import { markAllAsRead, markOneAsRead } from "../hooks/useMarkAllRead";
 
-export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
+export const MokPopup = ({ readKey, id, isDev, isLocal, writeKey }: PopupProps) => {
   const [clickedPopup, setClickedPopup] = useState<boolean[]>([]);
   const [popupData, setPopupData] = useState<any[]>([]);
   var audio = new Audio();
   // const toggle = () => setClickedPopup(p => !p);
 
+  const cb = (data: any[]) => {
+    const newData = data.map((d) => {
+      const item = JSON.parse(d.json_data)
+      return {
+        id: d.in_app_id,
+        html: item.html,
+        popup_configs: item.popup_configs,
+        payload: {
+          category: item.category,
+          icon: item.icon,
+          image: item.image,
+          in_app_click_action: item.in_app_click_action,
+          popup_configs: item.popup_configs,
+          text: item.text,
+          title: item.title,
+        }
+      }
+    })
+
+    setClickedPopup([...Array(...newData.map(s => true))]);
+    setPopupData(newData)
+  }
+
   let popupTimeout: any | undefined;
   const BASE_URL = isDev
     ? "https://dev.mok.one"
     : isLocal
-    ? "http://localhost:8080"
-    : "https://live.mok.one";
+      ? "http://localhost:8080"
+      : "https://live.mok.one";
 
   const playAudio = (audioSrc: string) => {
     audio.src = audioSrc;
@@ -26,20 +51,27 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
   };
 
   const handleOverlayClick = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    // in_app_id: string | undefined
   ) => {
     if (event.target === event.currentTarget) {
       handleCloseBtn();
+      // if (in_app_id) {
+      //   markOneAsRead(BASE_URL, id, writeKey, in_app_id)
+      // }
     }
   };
 
   const handleClearAll = () => {
     setClickedPopup([]);
     setPopupData([]);
+    markAllAsRead(BASE_URL, id, writeKey)
   };
 
   const handleCloseBtn = async () => {
     audio.pause();
+    const popdata = popupData.pop()
+    console.log(popdata)
     const newData = [...popupData.slice(0, -1)];
     setPopupData(newData);
     setClickedPopup(popups => popups.slice(0, -1));
@@ -70,6 +102,8 @@ export const MokPopup = ({ readKey, id, isDev, isLocal }: PopupProps) => {
   };
 
   useEffect(() => {
+    serviceWorkerRegistration.getPendingMessages({ userId: id, readKey, BASE_URL, writeKey, cb });
+
     const es = new EventSource(`${BASE_URL}/server/sse`);
 
     const eventListener = (event: MessageEvent) => {

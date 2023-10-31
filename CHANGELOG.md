@@ -1,5 +1,17 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.6
+
+### Minor Changes
+
+- popups from background
+
+## 0.9.3-alpha.5
+
+### Patch Changes
+
+- 9f4f67f: service worker registration
+
 ## 0.9.3-alpha.4
 
 ### Patch Changes
