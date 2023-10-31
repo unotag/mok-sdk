@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.7
+
+### Patch Changes
+
+- 59e5286: popup type set
+
 ## 0.10.0-alpha.6
 
 ### Minor Changes
