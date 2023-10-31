@@ -149,6 +149,7 @@ export const MokPopup = ({
         },
       };
     });
+    
     newData.map(data => {
       handleAddPopupData(data);
     })
