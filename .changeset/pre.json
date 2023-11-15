@@ -5,6 +5,7 @@
     "@mok.one/sdk": "0.9.2"
   },
   "changesets": [
+    "breezy-chefs-poke",
     "calm-maps-watch",
     "dull-stingrays-brake",
     "eight-camels-itch",

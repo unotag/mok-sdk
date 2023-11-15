@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.8
+
+### Patch Changes
+
+- 14f0e0a: fixed json data parsing error
+
 ## 0.10.0-alpha.7
 
 ### Patch Changes
