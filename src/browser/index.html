@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MOK</title>
+    <script type="module" src="/src/browser.ts" async="false"></script>
+  </head>
+  <body>
+    <script>
+
+      function eventData(data) {
+        console.log(data); // Testing whether the user defined function is invoked
+      }
+
+      window.onload = function() {
+        Mok.init({
+          readKey: "r_K-gXLRuD-FTDFg7wi5atE",
+          writeKey: "w_6jaMoCO6ZlTjwSV0EE9qi",
+          callback: eventData
+        });
+      }
+    </script>
+    <div id="app"></div>
+    <button 
+      id="mok-btn"
+      class="btn"
+    >Click Me</button>
+    <li>I shouldn't emit event while clicking</li>
+    <a 
+      href="/test" 
+    >This is a link</a>
+    <input type="password" />
+  </body>
+</html>

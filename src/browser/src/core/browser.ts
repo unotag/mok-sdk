@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-import key from "../../key";
+// @ts-ignore
+import key from "../../../../key";
 
 interface IDevice {
 	os: string;
@@ -44,8 +45,7 @@ const getEncryptedHeader = async (data: any) => {
 		encoder.encode(message)
 	);
 
-	return window.btoa(String.fromCharCode.apply(null, new Uint8Array(signatureBytes)))
-
+	return window.btoa(String.fromCharCode(...new Uint8Array(signatureBytes)));
 }
 
 export class BrowserClient {
@@ -53,6 +53,12 @@ export class BrowserClient {
 	writeKey: string;
 	BASE_URL = 'https://live.mok.one/api/customer/v1.2';
 	clientId: string;
+
+	constructor() {
+		this.readKey = "";
+		this.writeKey = "";
+		this.clientId = "";
+	}
 
 	setUserProperty(data: object) {
 		return new Promise(async (resolve, reject) => {
@@ -62,15 +68,13 @@ export class BrowserClient {
 			if (!this.clientId) {
 				reject('External id is not present');
 			}
-			const base64body = await getEncryptedHeader(data);
 
 			const config: AxiosRequestConfig = {
 				method: 'PATCH',
 				url: `${this.BASE_URL}/registration/${this.clientId}`,
 				headers: {
 					'Authorization': this.writeKey,
-					'Content-Type': 'application/json',
-					'x-signature': base64body
+					'Content-Type': 'application/json'
 				},
 				data
 			}
@@ -235,15 +239,12 @@ export class BrowserClient {
 				reject('Write API Key is not present');
 			}
 
-			const base64body = await getEncryptedHeader(activity_name)
-
 			const config: AxiosRequestConfig = {
 				method: 'POST',
 				url: `${this.BASE_URL}/add-user-activity/${this.clientId}`,
 				headers: {
 					'Authorization': this.writeKey,
-					'Content-Type': 'application/json',
-					'x-signature': base64body
+					'Content-Type': 'application/json'
 				},
 				data : {event_name: activity_name, ...data}
 			}

@@ -1,0 +1,19 @@
+{
+  "name": "mok-js-sdk",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^3.4.2",
+    "axios": "^1.6.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  }
+}
