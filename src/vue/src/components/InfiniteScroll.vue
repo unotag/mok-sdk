@@ -12,7 +12,7 @@
                 }"
               >
               <p :style="{ ...props.textStyles }">
-                  {{ JSON.parse(user.json_data).text }}
+                  {{user.json_data.text }}
                 </p>
                 <p :style="{ fontSize: '14px', ...props.textStyles }">
                   {{ formatDate(user.createdAt) }}

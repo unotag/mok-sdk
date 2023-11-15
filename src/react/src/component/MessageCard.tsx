@@ -15,7 +15,7 @@ export const MessageCard = ({
   writeKey,
   baseUrl
 }: MessageCardProps) => {
-  
+
 
   const isValidUrl = (clickAction: string) => {
     try {
@@ -25,7 +25,7 @@ export const MessageCard = ({
     }
   };
 
-  const json_data = JSON.parse(data.json_data);
+  const json_data = data.json_data;
 
   const handleCLick = (
     clickAction: string,
@@ -37,7 +37,8 @@ export const MessageCard = ({
     }
     if (isValidUrl(clickAction)) {
       window.open(clickAction, "_blank", "noreferrer");
-    } else {
+    }
+    if (clickAction !== "") {
       window.location.replace(clickAction);
     }
   };
