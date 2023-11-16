@@ -17,5 +17,8 @@ jobs:
           node-version: 16.x
           cache: "pnpm"
 
-      - run: pnpm installAll
+      - run: pnpm install --frozen-lockfile
+      - run: cd src/react pnpm install
+      - run: cd src/browser pnpm install
+      - run: cd src/vue pnpm install
       - run: pnpm run lint && pnpm run build

@@ -32,7 +32,6 @@
   },
   "scripts": {
     "lint": "tsc",
-    "installAll": "pnpm i --no-frozen-lockfile && cd ./src/react && pnpm i && cd ../src/browser && pnpm i && cd ../src/vue && pnpm i",
     "addFolder": "cd ./dist && mkdir react",
     "vueAddFolder": "cd ./dist && mkdir vue",
     "copyFiles": "copyfiles -f src/react/dist/*.js dist/react",
