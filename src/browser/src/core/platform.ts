@@ -1,4 +1,4 @@
-import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import FingerprintJS, { Agent, GetResult } from '@fingerprintjs/fingerprintjs';
 import { BrowserPlatform, BrowserResolution, BrowserSummary, BrowserType } from '../interfaces/platform.interface';
 
 /*
@@ -171,11 +171,11 @@ export const getBrowserResolution = (): BrowserResolution => {
 */
 export const getBrowserSignature = (): Promise<string> => {
     //TODO: Implement Browser Signature without dependencies
-    return FingerprintJS.load().then(r => {
-        return r.get().then(data => {
+    return FingerprintJS.load().then((r: Agent) => {
+        return r.get().then((data: GetResult) => {
             return data.visitorId;
         });
-    }).catch(e => {
+    }).catch((e:any) => {
         console.log(e);
         return "";
     });
