@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getUserProperty } from "../hooks/useGetUserProperty";
 import { SettingsProps } from "../types";
 import { setUserProperty } from "../hooks/useSetUserProperty";
