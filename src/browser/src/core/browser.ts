@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-import key from "../../key";
+// @ts-ignore
+// import key from "../../../../key";
 
 interface IDevice {
 	os: string;
@@ -19,40 +20,45 @@ interface ICategory {
 
 interface IAllowedCategories extends Array<ICategory>{}
 
-const getEncryptedHeader = async (data: any) => {
-	const algorithmParameters = {
-		name: 'RSASSA-PKCS1-v1_5',
-		modulusLength: 4096,
-		publicExponent: new Uint8Array([1, 0, 1]),
-		hash: 'SHA-256',
-	};
+// const getEncryptedHeader = async (data: any) => {
+// 	const algorithmParameters = {
+// 		name: 'RSASSA-PKCS1-v1_5',
+// 		modulusLength: 4096,
+// 		publicExponent: new Uint8Array([1, 0, 1]),
+// 		hash: 'SHA-256',
+// 	};
 
-	const normalKey = await window.crypto.subtle.importKey(
-		'jwk',
-		key,
-		algorithmParameters,
-		true,
-		['sign']
-	)
+// 	const normalKey = await window.crypto.subtle.importKey(
+// 		'jwk',
+// 		key,
+// 		algorithmParameters,
+// 		true,
+// 		['sign']
+// 	)
 
-	const message = JSON.stringify(data);
-	const encoder = new TextEncoder();
+// 	const message = JSON.stringify(data);
+// 	const encoder = new TextEncoder();
 
-	const signatureBytes = await window.crypto.subtle.sign(
-		algorithmParameters,
-		normalKey,
-		encoder.encode(message)
-	);
+// 	const signatureBytes = await window.crypto.subtle.sign(
+// 		algorithmParameters,
+// 		normalKey,
+// 		encoder.encode(message)
+// 	);
 
-	return window.btoa(String.fromCharCode.apply(null, new Uint8Array(signatureBytes)))
-
-}
+// 	return window.btoa(String.fromCharCode(...new Uint8Array(signatureBytes)));
+// }
 
 export class BrowserClient {
 	readKey: string;
 	writeKey: string;
 	BASE_URL = 'https://live.mok.one/api/customer/v1.2';
 	clientId: string;
+
+	constructor() {
+		this.readKey = "";
+		this.writeKey = "";
+		this.clientId = "";
+	}
 
 	setUserProperty(data: object) {
 		return new Promise(async (resolve, reject) => {
@@ -62,15 +68,13 @@ export class BrowserClient {
 			if (!this.clientId) {
 				reject('External id is not present');
 			}
-			const base64body = await getEncryptedHeader(data);
 
 			const config: AxiosRequestConfig = {
 				method: 'PATCH',
 				url: `${this.BASE_URL}/registration/${this.clientId}`,
 				headers: {
 					'Authorization': this.writeKey,
-					'Content-Type': 'application/json',
-					'x-signature': base64body
+					'Content-Type': 'application/json'
 				},
 				data
 			}
@@ -123,7 +127,7 @@ export class BrowserClient {
 				}
 			}
 
-			const base64body = await getEncryptedHeader(data)
+			// const base64body = await getEncryptedHeader(data)
 
 			axios
 				.post(
@@ -132,7 +136,7 @@ export class BrowserClient {
 					{
 						headers: {
 							Authorization: this.writeKey,
-							'x-signature': base64body
+							// 'x-signature': base64body
 						},
 					}
 				)
@@ -151,7 +155,7 @@ export class BrowserClient {
 				reject('Write API Key is not present');
 			}
 
-			const base64body = await getEncryptedHeader(data)
+			// const base64body = await getEncryptedHeader(data)
 
 			const config: AxiosRequestConfig = {
 				method: 'POST',
@@ -159,7 +163,7 @@ export class BrowserClient {
 				headers: {
 					'Authorization': this.writeKey,
 					'Content-Type': 'application/json',
-					'x-signature': base64body
+					// 'x-signature': base64body
 				},
 				data
 			}
@@ -182,7 +186,7 @@ export class BrowserClient {
 				reject('Read API Key is not present');
 			}
 
-			const base64body = await getEncryptedHeader({})
+			// const base64body = await getEncryptedHeader({})
 
 			const config: AxiosRequestConfig = {
 				method: 'GET',
@@ -190,7 +194,7 @@ export class BrowserClient {
 				headers: {
 					'Authorization': this.writeKey,
 					'Content-Type': 'application/json',
-					'x-signature': base64body
+					// 'x-signature': base64body
 				}
 			}
 
@@ -208,7 +212,7 @@ export class BrowserClient {
 				reject('Write API Key is not present');
 			}
 			
-			const base64body = await getEncryptedHeader(device)
+			// const base64body = await getEncryptedHeader(device)
 
 			const config: AxiosRequestConfig = {
 				method: 'POST',
@@ -216,7 +220,7 @@ export class BrowserClient {
 				headers: {
 					'Authorization': this.writeKey,
 					'Content-Type': 'application/json',
-					'x-signature': base64body
+					// 'x-signature': base64body
 				},
 				data : {device: {...device}}
 			}
@@ -235,15 +239,12 @@ export class BrowserClient {
 				reject('Write API Key is not present');
 			}
 
-			const base64body = await getEncryptedHeader(activity_name)
-
 			const config: AxiosRequestConfig = {
 				method: 'POST',
 				url: `${this.BASE_URL}/add-user-activity/${this.clientId}`,
 				headers: {
 					'Authorization': this.writeKey,
-					'Content-Type': 'application/json',
-					'x-signature': base64body
+					'Content-Type': 'application/json'
 				},
 				data : {event_name: activity_name, ...data}
 			}
@@ -262,7 +263,7 @@ export class BrowserClient {
 				reject("Write API Key is not present");
 		  	}
 	
-		  	const base64body = await getEncryptedHeader({});
+		  	// const base64body = await getEncryptedHeader({});
 	
 		  	const config: AxiosRequestConfig = {
 				method: "PATCH",
@@ -270,7 +271,7 @@ export class BrowserClient {
 				headers: {
 				Authorization: this.writeKey,
 					"Content-Type": "application/json",
-					"x-signature": base64body,
+					// "x-signature": base64body,
 				},
 		  	};
 	
@@ -288,7 +289,7 @@ export class BrowserClient {
 			  reject("Write API Key is not present");
 			}
   
-			const base64body = await getEncryptedHeader({});
+			// const base64body = await getEncryptedHeader({});
   
 			const config: AxiosRequestConfig = {
 				method: "PATCH",
@@ -296,7 +297,7 @@ export class BrowserClient {
 				headers: {
 				Authorization: this.writeKey,
 					"Content-Type": "application/json",
-					"x-signature": base64body,
+					// "x-signature": base64body,
 				},
 			};
   

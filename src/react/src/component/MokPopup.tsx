@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PopupProps } from "../types";
 import NormalPopup from "./PopupModal/NormalPopup";
 import FullPagePopup from "./PopupModal/FullPagePopup";
