@@ -6,23 +6,24 @@ declare global {
     interface Window { Mok: any; }
 }
 
-const Mok = {
+const Mok: IMok = {
     visitorId: "",
+    sdk: "browser",
+    url: "",
+    callback: undefined,
+    browserClient: new BrowserClient(),
     init: async function (config: MokConfig): Promise<IMok> {
         this.visitorId = await this.platform.getBrowserSignature();
-        let browserClient = new BrowserClient();
-        browserClient.setReadKey(config.readKey);
-        browserClient.setWriteKey(config.writeKey);
+        this.url = this.location.getCurrentUrl();
+        this.browserClient.setReadKey(config.readKey);
+        this.browserClient.setWriteKey(config.writeKey);
+        this.callback = config.callback;
         try {
             // Create or update the browser client to the server
-            await browserClient.setUser(this.visitorId);
+            await this.browserClient.setUser(this.visitorId);
 
             // Attach event listener to web document
-            this.event.attachEventListenerToDocument(
-                browserClient,
-                this,
-                config.callback || null
-            )
+            this.event.attachEventListenerToDocument(this);
             return Promise.resolve(this);
         } catch(e) {
             console.log(e);

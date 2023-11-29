@@ -1,6 +1,6 @@
-import { BrowserClient } from "../core/browser";
 import { IMok } from "./mok.interface";
 
 export interface IEvent { 
-    attachEventListenerToDocument(browserClient: BrowserClient, mok: IMok, callback: Function | null): void;
+    attachEventListenerToDocument(mok: IMok): void;
+    addUserActivity(type: string, data: { [key: string]: string }, mok: IMok): void;
 }
