@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import * as core from '../../../browser/src/browser.main';
 
 export const Mok = (props: any) => {
