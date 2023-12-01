@@ -47,6 +47,14 @@ export interface PopupProps {
 	isLocal?: boolean;
 }
 
+export interface CheckListPopupProps {
+	readKey: string;
+	writeKey: string;
+	id: string;
+	isDev?: boolean;
+	isLocal?: boolean;
+}
+
 interface ICategory {
 	name: string;
 	allowed: boolean;

@@ -1,5 +1,17 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.10
+
+### Patch Changes
+
+- 2af0c14: checklist popup added
+
+## 0.10.0-alpha.9
+
+### Patch Changes
+
+- e9044e6: browser event tracking
+
 ## 0.10.0-alpha.8
 
 ### Patch Changes
