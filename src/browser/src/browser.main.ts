@@ -22,8 +22,10 @@ const Mok: IMok = {
             // Create or update the browser client to the server
             await this.browserClient.setUser(this.visitorId);
 
-            // Attach event listener to web document
-            this.event.attachEventListenerToDocument(this);
+            // Attach event listener to web document. If the sdk type is different, it is likely we want to invoke this function manually
+            if(this.sdk === "browser") {
+                this.event.attachEventListenerToDocument(this);
+            }
             return Promise.resolve(this);
         } catch(e) {
             console.log(e);

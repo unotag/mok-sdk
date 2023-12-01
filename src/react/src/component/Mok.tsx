@@ -1,20 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, createContext, useState } from 'react';
 import * as core from '../../../browser/src/browser.main';
+import { IMok } from '../../../browser/src/interfaces/mok.interface';
+import { MokObjectContext } from '../contexts/MokObjectContext';
 
-export const Mok = (props: any) => {
+export interface MokProps {
+    readKey: string;
+    writeKey: string;
+    [key: string]: any;
+}
+
+export const Mok = (props: MokProps) => {
     const { children } = props;
-    
+    const [mokObject, setMokObject] = useState<IMok>(core.default);
+
     useEffect(() => {
         if(props?.readKey && props?.writeKey) {
-            core.default.sdk = "react";
-            core.default.init({
+            mokObject.sdk = "react";
+            mokObject.init({
                 readKey: props.readKey,
-                writeKey: props.writeKey,
-                callback: (data) => {
-                    if(props?.callback) {
-                        props.callback(data);
-                    }
-                }
+                writeKey: props.writeKey
+            }).then((m: IMok) => {
+                //Adds object to a context so that it can be accessed by child components
+                setMokObject({...m});
             });
         } else {
             throw {
@@ -23,5 +30,11 @@ export const Mok = (props: any) => {
         }
     },[]);
 
-    return <>{children}</>
+    return (
+        <>
+            { /* TODO: Resolve "Provider cannot be used as a JSX component" */}
+            {/* @ts-ignore */} 
+            <MokObjectContext.Provider value={mokObject}>{children}</MokObjectContext.Provider>
+        </>
+    );
 }
