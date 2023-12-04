@@ -49,7 +49,13 @@ export interface PopupProps {
 
 export interface CheckListPopupProps {
 	readKey: string;
-	writeKey: string;
+	id: string;
+	isDev?: boolean;
+	isLocal?: boolean;
+}
+
+export interface CarouselProps {
+	readKey: string;
 	id: string;
 	isDev?: boolean;
 	isLocal?: boolean;
@@ -60,6 +66,11 @@ interface ICategory {
 	allowed: boolean;
  	timeWindow?: string;
 	region?: string;
+}
+
+export interface ICarousel {
+	CarouselData: any;
+	CarouselIndex: any;
 }
 
 export interface NormalPopup {

@@ -7,7 +7,6 @@ export const CheckListPopup = ({
   id,
   isDev,
   isLocal,
-  writeKey,
 }: CheckListPopupProps) => {
   const [checklistDetails, setChecklistDetails] = useState<[]>([]);
   const [checklistCount, setChecklistCount] = useState<any>(0);
