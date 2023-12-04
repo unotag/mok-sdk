@@ -15,6 +15,5 @@ export const getElementAttributes = (element: HTMLElement): ElementAttributes =>
         }
     }
     attributes.tagName = element.tagName.toLowerCase();
-    attributes.documentTitle = getDocumentTitle();
     return attributes;
 }
