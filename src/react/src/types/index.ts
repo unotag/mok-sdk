@@ -61,6 +61,13 @@ export interface CarouselProps {
 	isLocal?: boolean;
 }
 
+export interface MokOnBoardingProps {
+	readKey: string;
+	id: string;
+	isDev?: boolean;
+	isLocal?: boolean;
+}
+
 interface ICategory {
 	name: string;
 	allowed: boolean;
