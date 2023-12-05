@@ -1,5 +1,17 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.11
+
+### Patch Changes
+
+- 35f5b8e: react components to capture events
+
+## 0.10.0-alpha.10
+
+### Patch Changes
+
+- 2af0c14: checklist popup added
+
 ## 0.10.0-alpha.9
 
 ### Patch Changes
