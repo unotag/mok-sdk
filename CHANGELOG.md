@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.12
+
+### Patch Changes
+
+- 84ee3ac: carousel and onboarding complete
+
 ## 0.10.0-alpha.11
 
 ### Patch Changes
