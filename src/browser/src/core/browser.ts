@@ -252,6 +252,7 @@ export class BrowserClient {
 			axios(config).then((response) => {
 				resolve(response.data)
 			}).catch((err) => {
+				console.log(err);
 				reject(err.response.data)
 			})
 		})

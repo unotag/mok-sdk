@@ -12,6 +12,6 @@ export default {
             name: 'browser',
             formats: ['es', 'umd'],
             fileName: (format) => `browser.${format}.js`,
-        },
+        }
     }
 }

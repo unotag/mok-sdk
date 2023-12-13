@@ -1,12 +1,12 @@
 import { LocationSummary } from "../interfaces/location.interface";
 
-export const location = window.location
+export const location = (): Location  => window.location;
 
 /*
     Returns the current visted page url
 */
 export const getCurrentUrl = (): string => {
-    return replaceTrailingSlash(location.href);
+    return replaceTrailingSlash(location().href);
 }
 
 /*
@@ -14,14 +14,14 @@ export const getCurrentUrl = (): string => {
     Eg: /test/1
 */
 export const getPathName = (): string => {
-    return location.pathname;
+    return location().pathname;
 }
 
 /*
     Returns the host without any protocol
 */
 export const getHost = (): string => {
-    return location.host;
+    return location().host;
 }
 
 /*
@@ -29,7 +29,7 @@ export const getHost = (): string => {
     Eg: http, https
 */
 export const getProtocol = (): string => {
-    return location.protocol;
+    return location().protocol;
 }
 
 /*

@@ -4,7 +4,7 @@ export interface LocationSummary {
 }
 
 export interface ILocation {
-    location: Location;
+    location(): Location;
     getCurrentUrl(): string;
     getPathName(): string;
     getHost(): string;
