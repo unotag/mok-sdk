@@ -21,6 +21,10 @@
     "./vue": {
       "import": "./dist/vue/vue.es.js",
       "require": "./dist/vue/vue.umd.js"
+    },
+    "./node": {
+      "import": "./dist/node/node.es.js",
+      "require": "./dist/node/node.cjs.js"
     }
   },
   "typesVersions": {
