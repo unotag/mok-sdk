@@ -67,6 +67,7 @@ export const addUserActivity = (
     let eventData = {
         sdk: mok.sdk,
         event_type: type,
+        visitorId: mok.visitorId,
         documentTitle: mok.dom.getDocumentTitle(),
         ...data,
         ...mok.platform.getBrowserSummary(),

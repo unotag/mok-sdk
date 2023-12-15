@@ -21,6 +21,10 @@
     "./vue": {
       "import": "./dist/vue/vue.es.js",
       "require": "./dist/vue/vue.umd.js"
+    },
+    "./node": {
+      "import": "./dist/node/node.es.js",
+      "require": "./dist/node/node.cjs.js"
     }
   },
   "typesVersions": {
@@ -35,6 +39,7 @@
     "addFolder": "cd ./dist && mkdir react",
     "vueAddFolder": "cd ./dist && mkdir vue",
     "browserAddFolder": "cd ./dist && mkdir browser",
+    "nodeAddFolder": "cd ./dist && mkdir node",
     "copyFiles": "copyfiles -f src/react/dist/*.js dist/react",
     "copyFilesVue": "copyfiles -f src/vue/dist/*.js dist/vue",
     "copyReactBuild": "(npm run addFolder && npm run copyFiles) || npm run copyFiles",
@@ -44,7 +49,10 @@
     "copyFilesBrowser": "copyfiles -f src/browser/dist/*.js dist/browser",
     "copyBrowserBuild": "(npm run browserAddFolder && npm run copyFilesBrowser) || npm run copyFilesBrowser",
     "browserBuild": "cd src/browser && npm ci && npm run build",
-    "build": "tsup src/app.ts --format cjs,esm --dts && npm run browserBuild && npm run copyBrowserBuild && npm run reactBuild  && npm run copyReactBuild && npm run vueBuild && npm run copyVueBuild",
+    "copyFilesNode": "copyfiles -f src/node/dist/*.js dist/node",
+    "copyNodeBuild": "(npm run nodeAddFolder && npm run copyFilesNode) || npm run copyFilesNode",
+    "nodeBuild": "cd src/node && npm ci && npm run build",
+    "build": "tsup src/app.ts --format cjs,esm --dts && npm run browserBuild && npm run copyBrowserBuild && npm run reactBuild  && npm run copyReactBuild && npm run vueBuild && npm run copyVueBuild && npm run nodeBuild && npm run copyNodeBuild",
     "release": "changeset publish"
   },
   "keywords": [],
