@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.13
+
+### Patch Changes
+
+- ef07b4b: tracking user activity middleware for node/express based apps
+
 ## 0.10.0-alpha.12
 
 ### Patch Changes
