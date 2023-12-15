@@ -5,7 +5,7 @@ export const useMokExpress = (app: Express, mok: Promise<IMok>) => {
     app.set('trust proxy', true);
     app.use((req: Request, _res: Response, next: NextFunction) => {
         mok.then(async (m) => {
-            m.visitorId = (m.setUserFn && await m.setUserFn(req)) || m.visitorId || "undefined";
+            m.visitorId = (m.setUserFn && await m.setUserFn(req)) || "undefined";
             await m.browserClient.setUser(m.visitorId);
             transmitUserActivity({
                 sdk: m.sdk + "+" + "express",
