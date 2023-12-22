@@ -32,12 +32,12 @@ export const CarouselComponent = ({
     }
   };
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      handleNext();
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [handleNext]);
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     handleNext();
+  //   }, 3000);
+  //   return () => clearInterval(timer);
+  // }, [handleNext]);
 
   return (
     <div
@@ -81,14 +81,14 @@ export const CarouselComponent = ({
               >
                 {item?.type === "image" ? (
                   <img
-                    style={{ width: "100%", height: "100%" }}
+                    style={{ width: "auto", height: "100%" }}
                     src={item.url}
                     alt={`carousel-image-${index}`}
                   />
                 ) : (
                   <video
                     src={item?.url}
-                    width="100%"
+                    width="auto"
                     height="100%"
                     controls
                     autoPlay

@@ -40,7 +40,7 @@
   const props = defineProps({
     isDev: Boolean,
     isLocal: Boolean,
-    apiKey: String,
+    readKey: String,
     id: String,
     stylesData: {
         default: () => ({}),
@@ -60,13 +60,13 @@
 
   const usersToShow = 10;
   
-  const usersList = ref(await getMessages(usersToShow, 0, props.isDev, props.isLocal, props.id, props.apiKey));
+  const usersList = ref(await getMessages(usersToShow, 0, props.isDev, props.isLocal, props.id, props.readKey));
   
   const fetchingData = ref(null);
   
   const getUsersOnScroll = async () => {
     fetchingData.value = true;
-    const newUsers = await getMessages(usersToShow, usersList.value.length, props.isDev, props.isLocal, props.id, props.apiKey);
+    const newUsers = await getMessages(usersToShow, usersList.value.length, props.isDev, props.isLocal, props.id, props.readKey);
     usersList.value.push(...newUsers);
     fetchingData.value = null;
   };

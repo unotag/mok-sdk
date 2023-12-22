@@ -229,6 +229,7 @@ export const MokPopup = ({
                     popupData={popupData}
                     handleOverlayClick={handleOverlayClick}
                     handleCloseBtn={handleCloseBtn}
+                    latestPopupData={latestPopupData}
                   />
                 );
               default:

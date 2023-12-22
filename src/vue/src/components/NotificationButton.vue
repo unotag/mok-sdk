@@ -15,7 +15,7 @@ export default {
       type: String,
       default: () => 'right',
     },
-    apiKey: {
+    readKey: {
       type: String,
       required: true,
     },
@@ -59,7 +59,7 @@ export default {
           : this.isLocal
           ? 'http://localhost:8080'
           : 'https://live.mok.one';
-        const data = await getStylesData(BASE_URL, this.apiKey);
+        const data = await getStylesData(BASE_URL, this.readKey);
         this.stylesData = data;
       } catch (error) {
         console.log(error)
@@ -149,7 +149,7 @@ export default {
         </div>
       </div>
       <Suspense>
-        <InfiniteScroll :textStyles="textStyles" :ruleStyles="ruleStyles" :apiKey="apiKey" :id="id" :isDev="isDev" :isLocal="isLocal" :stylesData="stylesData" />
+        <InfiniteScroll :textStyles="textStyles" :ruleStyles="ruleStyles" :readKey="readKey" :id="id" :isDev="isDev" :isLocal="isLocal" :stylesData="stylesData" />
         <template #fallback>
           <p>Loading...</p>
         </template>
