@@ -10,7 +10,7 @@
         </template>
         <template v-else-if="latestPopupData?.popup_configs?.template_type === 'bottom_sheet'">
             <BottomSheetPopup :popupData="popupData" :handleOverlayClick="handleOverlayClick"
-                :handleCloseBtn="handleCloseBtn" />
+                :handleCloseBtn="handleCloseBtn" :latestPopupData="latestPopupData" />
         </template>
         <template v-else>
             <NormalPopup :popupData="popupData" :handleClearAll="handleClearAll" :handleOverlayClick="handleOverlayClick"

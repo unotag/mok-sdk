@@ -5,44 +5,53 @@ export default function BottomSheetPopup({
   popupData,
   handleOverlayClick,
   handleCloseBtn,
+  latestPopupData,
 }: BottomSheetPopup) {
   return (
     <>
-      {popupData[popupData.length - 1]?.html ? (
+      {latestPopupData?.html ? (
         <div>
           <div
+            onClick={event =>
+              handleOverlayClick(event, latestPopupData?.payload?.in_app_id)
+            }
             style={{
               position: "fixed",
-              top: "0",
-              left: "0",
-              zIndex: "-1",
+              top: 0,
+              left: 0,
               width: "100%",
               height: "100%",
-              opacity: "0.2",
-              background: "#000",
-            }}
-          ></div>
-          <div
-            style={{
-              width: "auto",
-              position: "relative",
-              background: "#fff",
-              maxHeight: "100vh",
-              height: `50vh`,
-              maxWidth: "1150px",
-              padding: "25px 30px",
-              overflowY: "auto",
-              transform: "translateY(100%)",
-              borderRadius: "12px 12px 0 0",
-              boxShadow: "0 10px 20px rgba(0, 0, 0, 0.03)",
-              transition: "0.3s ease",
+              background: "rgba(0, 0, 0, 0.5)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              zIndex: "9999",
             }}
           >
             <div
-              dangerouslySetInnerHTML={{
-                __html: popupData[popupData.length - 1].html,
+              style={{
+                position: "fixed",
+                bottom: "0",
+                width: "86%",
+                backgroundColor: "#fff",
+                boxShadow: "0px -5px 15px 0px rgba(0, 0, 0, 0.1)",
+                transition: "bottom 0.3s ease-out",
+                padding: "20px",
+                height: "50vh",
+                maxWidth: "1150px",
+                overflowY: "auto",
+                borderRadius: "20px 20px 0px 10px",
+                left: "50%",
+                transform: "translateX(-50%)",
               }}
-            ></div>
+            >
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: latestPopupData?.html,
+                }}
+              ></div>
+            </div>
           </div>
         </div>
       ) : null}

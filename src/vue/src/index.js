@@ -1,5 +1,5 @@
 import NotificationButton from './components/NotificationButton.vue';
-import Checklist from './components/Checklist.vue'
+import MokCheckList from './components/MokCheckList.vue'
 import MokOnBoarding from './components/MokOnBoarding.vue'
 import MokCarousel from './components/MokCarousel.vue'
 import MokPopup from './components/MokPopup.vue'
@@ -9,4 +9,4 @@ import MokPopup from './components/MokPopup.vue'
 //     app.component('Checklist', Checklist)
 //   },
 // };
-export { NotificationButton, Checklist, MokOnBoarding, MokCarousel, MokPopup }
+export { NotificationButton, MokCheckList, MokOnBoarding, MokCarousel, MokPopup }

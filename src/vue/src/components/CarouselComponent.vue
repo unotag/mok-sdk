@@ -16,8 +16,8 @@
                     'margin-bottom': 'auto',
                 }">
                 <img v-if="item.type === 'image'" :src="item.url" :alt="'carousel-image-' + index"
-                    style="width: 100%; height: 100%;" />
-                <video v-else-if="item.type === 'video'" :src="item.url" width="100%" height="100%" controls
+                    style="width: auto; height: 100%;" />
+                <video v-else-if="item.type === 'video'" :src="item.url" width="auto" height="100%" controls
                     autoplay></video>
             </div>
         </div>
@@ -116,6 +116,9 @@ export default {
                 this.handlePrev();
             }
         },
+        setActiveIndex(index) {
+            this.activeIndex = index
+        }
     },
 };
 </script>

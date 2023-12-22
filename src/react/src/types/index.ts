@@ -104,6 +104,7 @@ export interface FloatingPopup{
 
 export interface BottomSheetPopup{
 	popupData: { html: string }[];
+	latestPopupData: any;
 	handleOverlayClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>,in_app_id:string|undefined) =>void;
 	handleCloseBtn: (in_app_id:string|undefined) => void;
 }
