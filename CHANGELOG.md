@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.15
+
+### Patch Changes
+
+- b5d2e89: vue component bug fixed
+
 ## 0.10.0-alpha.14
 
 ### Patch Changes
