@@ -1,0 +1,37 @@
+<div [ngStyle]="myNewContainerStyles">
+  <div style="cursor: pointer" (click)="toggle()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9m-4.27 13a2 2 0 0 1-3.46 0"/>
+    </svg>
+  </div>
+  <div *ngIf="clicked" class="notification-box {{ position }}" [ngStyle]="messageBoxStyles" [ngClass]="{scrollable: morePage>10}">
+    <div class="notification-header" [ngStyle]="{backgroundColor: stylesData?.titleBarBgColor}">
+      <div [ngStyle]="{padding: '10px', color: titleTextColor}">Notification</div>
+      <button (click)="toggle()" [style]="{
+        backgroundColor: stylesData?.titleBarBgColor,
+        color: titleTextColor,
+        borderRadius: '50%',
+        padding: '6px',
+        border: 'none',
+        cursor: 'pointer'
+      }">X</button>
+    </div>
+    <div class="notification-content" [ngStyle]="{backgroundColor: stylesData?.notificationBgColor}">
+      <div *ngIf="data.length > 0" class="message-container" #messageContainer>
+        <lib-message-card *ngFor="let item of data; let i = index" [lastElem]="i === data.length - 1 ? true : false" [messageCardProps]="{
+          text: getText(item),
+          time: getTime(item),
+          textColor: boxTextColor,
+          textStyles: textStyles,
+          ruleStyles: ruleStyles
+        }" [ngStyle]="ruleStyles" class="message-card"></lib-message-card>
+      </div>
+      <div *ngIf="!data.length && !error">
+        <div [ngStyle]="{color: boxTextColor, display:'flex', justifyContent:'center', marginTop:'100px'}">
+          No Notification Yet!!
+        </div>
+      </div>
+      <div *ngIf="loading" [ngStyle]="{color: boxTextColor, textAlign: 'center'}">Loading...</div>
+      <div *ngIf="error" [ngStyle]="{color: boxTextColor, textAlign: 'center'}">Error...</div>
+  </div>
+</div>
