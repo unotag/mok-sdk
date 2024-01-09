@@ -1,4 +1,6 @@
 import moment from 'moment';
+import axios, { AxiosRequestConfig } from 'axios';
+import FingerprintJs, { Agent, GetResult} from '@fingerprintjs/fingerprintjs';
 
 export function Shade(color: any) {
 	// To handle Edge cases where color is undefined
@@ -45,4 +47,40 @@ export function formatDate(date: any) {
 
 export function asyncWrap(promise: Promise<any>): any {
     return promise.then((result) => [null, result]).catch((err) => [err]);
+}
+
+export const getBrowserSignature = () => {
+    return FingerprintJs.load().then((r: Agent) => {
+        return r.get().then((data: GetResult) => {
+            return data.visitorId;
+        });
+    })
+}
+
+export const urlBase64ToUint8Array = (base64String:string) => {
+    var padding = '='.repeat((4 - base64String.length % 4) % 4);
+    var base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/');
+
+    var rawData = window.atob(base64);
+    var outputArray = new Uint8Array(rawData.length);
+
+    for (var i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+}
+
+export const getVapidPublicKey = (baseUrl: string, key: string) => {
+	const config: AxiosRequestConfig = {
+		method: 'GET',
+		url: `${baseUrl}/api/customer/v1.2/vapid-keys`,
+		headers: {
+			Authorization: key,
+			'Content-Type': 'application/json',
+		},
+	};
+
+    return axios(config).then(r => r.data);
 }
