@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.16
+
+### Patch Changes
+
+- 1fef265: vapid push subscription changes in react
+
 ## 0.10.0-alpha.15
 
 ### Patch Changes
