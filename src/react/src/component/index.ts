@@ -5,3 +5,4 @@ export * from './MokCarousel';
 export * from './MokOnBoarding';
 export * from './Mok';
 export * from './MokAnalytics';
+export * from './MokAudioCallAgentSdk'
