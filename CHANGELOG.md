@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.18
+
+### Patch Changes
+
+- f335f07: fixes in vapid subscription
+
 ## 0.10.0-alpha.17
 
 ### Patch Changes
