@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.17
+
+### Patch Changes
+
+- 66a8e9d: mok audio call agent sdk added in react
+
 ## 0.10.0-alpha.16
 
 ### Patch Changes
