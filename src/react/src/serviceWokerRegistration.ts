@@ -4,17 +4,27 @@ import { getVapidPublicKey, urlBase64ToUint8Array } from "./utils";
 export async function getPendingMessages({ userId, readKey, writeKey, BASE_URL, cb }: { userId: string, readKey: string, writeKey: string, BASE_URL: string, cb: Function }) {
     const serviceWorker = await getOrRegisterServiceWorker()
     const subscription = await serviceWorker.pushManager.getSubscription();
+    const vapidKeys = await getVapidPublicKey(BASE_URL, readKey);
     let sub;
     if (subscription) {
-        sub = subscription
-    } else {
-        const vapidKeys = await getVapidPublicKey(BASE_URL, readKey);
+      let json = subscription.toJSON();
+      let public_key = json.keys?.p256dh;
+      if (public_key !== vapidKeys.vapid_public_key) {
+        await subscription.unsubscribe();
         sub = await serviceWorker.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: urlBase64ToUint8Array(
             vapidKeys.vapid_public_key
           ),
         });
+      } else {
+        sub = subscription;
+      }
+    } else {
+      sub = await serviceWorker.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(vapidKeys.vapid_public_key),
+      });
     }
 
     const userData = JSON.stringify(JSON.stringify(sub));
