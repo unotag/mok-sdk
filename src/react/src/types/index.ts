@@ -109,4 +109,11 @@ export interface BottomSheetPopup{
 	handleCloseBtn: (in_app_id:string|undefined) => void;
 }
 
+export interface PersonalizedLandingProps {
+	readKey: string;
+	id: string;
+	isDev?: boolean;
+	isLocal?: boolean;
+}
+
 export interface IAllowedCategories extends Array<ICategory>{ }
