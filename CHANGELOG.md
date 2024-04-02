@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.19
+
+### Patch Changes
+
+- a977454: implemetation of mok personalize landing
+
 ## 0.10.0-alpha.18
 
 ### Patch Changes
