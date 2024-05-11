@@ -38,7 +38,8 @@ export const MessageCard = ({
     if (isValidUrl(clickAction)) {
       window.open(clickAction, "_blank", "noreferrer");
     }
-    if (clickAction !== "") {
+    const internalUrl = /^\//;
+    if (!isValidUrl(clickAction) && internalUrl.test(clickAction)) {
       window.location.replace(clickAction);
     }
   };
