@@ -1,5 +1,11 @@
 # @mok.one/sdk
 
+## 0.10.0-alpha.20
+
+### Patch Changes
+
+- 1dcc5c1: fix for url open
+
 ## 0.10.0-alpha.19
 
 ### Patch Changes
